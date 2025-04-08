@@ -12,9 +12,9 @@ app.add_middleware(
 )
 
 # database
-from app.database import watch as watch_database
+from app.database import session 
 
-watch_database.createDatabase()
+session.createDatabase()
 
 # routers
 from app.routers import watch as watch_routers

@@ -1,5 +1,7 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
-class Watch(BaseModel):
+class WatchSchema(BaseModel):
     name: str
-    material: list
+    material: list[str] | None
+    
+    model_config = ConfigDict(extra="forbid")
