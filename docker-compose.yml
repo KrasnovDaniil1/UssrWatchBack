@@ -1,0 +1,14 @@
+version: "3.0"
+
+services:
+    db:
+        container_name: postgres
+        image: postgres
+        restart: unless-stopped
+        environment:
+            POSTGRES_USER: admin
+            POSTGRES_PASSWORD: admin
+            POSTGRES_DB: ussrwatch
+            POSTGRES_HOST: localhost
+        ports:
+            - "5432:5432"

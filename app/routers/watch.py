@@ -7,7 +7,7 @@ from app.schemas import watch
 @router.get("/watch")
 def get_watch() -> list[watch.WatchSchema]:
     return  {"message": 'sdf'}
-
+    
 @router.get("/watch/{id}")
 def get_watch_id(id: int):
     return  {"message": "Подробно о часах"}
