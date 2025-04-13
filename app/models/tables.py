@@ -13,37 +13,39 @@ class Watch(Base): # часы
     __tablename__ = 'watch'
     id: Mapped[int] = mapped_column(primary_key=True)
     folder: Mapped[str]
-    watch_gender_id: Mapped[str] = mapped_column(ForeignKey("watch_gender.id"))
+    gender_id: Mapped[str] = mapped_column(ForeignKey("gender.id"))
     case_material_id: Mapped[int] = mapped_column(ForeignKey("case_material.id"))
     mechanism_id: Mapped[int]  = mapped_column(ForeignKey("mechanism.id"))
-    watch_factory_id: Mapped[int] = mapped_column(ForeignKey("watch_factory.id"))
-    brand_id: Mapped[int] = mapped_column(ForeignKey("brand.id"))
+    factory_id: Mapped[int] = mapped_column(ForeignKey("factory.id"))
+    brand_id: Mapped[int] = mapped_column(ForeignKey("watch_brand.id"))
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     integrated_bracelet: Mapped[bool]
 
-class WatchFactory(Base): # часовой завод
-    __tablename__ = 'watch_factory'
+class Factory(Base): # часовой завод
+    __tablename__ = 'factory'
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str]
+    city: Mapped[str]
+    
 
-class WatchAliases(Base): # ключевые слова для часов
+class Aliases(Base): # ключевые слова для часов
     __tablename__ = 'aliases'
     id: Mapped[int] = mapped_column(primary_key=True)
     watch_id: Mapped[int] = mapped_column(ForeignKey("watch.id"))
     key: Mapped[str]
 
-class WatchBrand(Base): # название брэнда часов
+class Brand(Base): # название брэнда часов
     __tablename__ = 'brand'
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str]
 
-class WatchCaseMaterial(Base): # материал корпуса часов
+class CaseMaterial(Base): # материал корпуса часов
     __tablename__ = 'case_material'
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] 
 
-class WatchGender(Base):
-    __tablename__ = 'watch_gender'
+class Gender(Base):
+    __tablename__ = 'gender'
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] 
     
@@ -63,7 +65,7 @@ class Mechanism(Base): # механизмы
 class Functions(Base): # различные функции механизма
     __tablename__ = 'functions'
     id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] #automatic|winding|shockproof|chronograph|stop|moon|dayweek|day
+    name: Mapped[str] 
 
 class MechanismFunctions(Base): # соединение механизмов и функций
     __tablename__ = 'mechanism_functions'
@@ -88,7 +90,7 @@ class Users(Base): # пользователь
     login: Mapped[str]
     password: Mapped[str]
     email: Mapped[str]
-    role: Mapped[str] # admin|user|ban
+    role: Mapped[str] 
     
 class Сollection(Base): # коллекция пользователя
     __tablename__ = 'collection'
