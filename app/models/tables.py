@@ -1,35 +1,56 @@
 from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy import ForeignKey
+from sqlalchemy import ForeignKey, text
+from typing import Annotated
 from database.session import Base
+import datetime
 
 # посмотреть как делать уникальные значения
 # как вести документацию по таблицам
 # сделать цвет корпуса
 # добавить счетчик гейгера
 
+def utc_now():
+    return datetime.now(datetime.timezone.utc)
+
+created_at = Annotated[
+    datetime.datetime, 
+    mapped_column(
+        server_default = text("TIMEZONE('utc', now())")
+    )
+] 
+
+update_at = Annotated[
+    datetime.datetime, 
+    mapped_column(
+        server_default = text("TIMEZONE('utc', now())"),
+        onupdate = utc_now
+    )
+]   
+
+    
 # -------- Часы --------
 
 class Watch(Base): # часы
     __tablename__ = 'watch'
     id: Mapped[int] = mapped_column(primary_key=True)
-    folder: Mapped[str]
+    folder: Mapped[str] = mapped_column(unique=True)
+    integrated_bracelet: Mapped[bool]
     gender_id: Mapped[str] = mapped_column(ForeignKey("gender.id"))
     case_material_id: Mapped[int] = mapped_column(ForeignKey("case_material.id"))
     mechanism_id: Mapped[int]  = mapped_column(ForeignKey("mechanism.id"))
     factory_id: Mapped[int] = mapped_column(ForeignKey("factory.id"))
-    brand_id: Mapped[int] = mapped_column(ForeignKey("watch_brand.id"))
+    brand_id: Mapped[int] = mapped_column(ForeignKey("brand.id"))
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
-    integrated_bracelet: Mapped[bool]
+    created_at: Mapped[created_at]
+    update_at:  Mapped[update_at]
 
 class Factory(Base): # часовой завод
     __tablename__ = 'factory'
     id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str]
-    city: Mapped[str]
+    name: Mapped[str] = mapped_column(unique=True)
     
-
-class Aliases(Base): # ключевые слова для часов
-    __tablename__ = 'aliases'
+class Alias(Base): # ключевые слова для часов
+    __tablename__ = 'alias'
     id: Mapped[int] = mapped_column(primary_key=True)
     watch_id: Mapped[int] = mapped_column(ForeignKey("watch.id"))
     key: Mapped[str]
@@ -37,63 +58,71 @@ class Aliases(Base): # ключевые слова для часов
 class Brand(Base): # название брэнда часов
     __tablename__ = 'brand'
     id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str]
+    name: Mapped[str] = mapped_column(unique=True)
 
 class CaseMaterial(Base): # материал корпуса часов
     __tablename__ = 'case_material'
     id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] 
+    name: Mapped[str] = mapped_column(unique=True)
 
 class Gender(Base):
     __tablename__ = 'gender'
     id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] 
+    name: Mapped[str] = mapped_column(unique=True)
     
 
-
 # -------- Механизмы --------
-
 
 
 class Mechanism(Base): # механизмы
     __tablename__ = 'mechanism'
     id: Mapped[int] = mapped_column(primary_key=True)
     stones: Mapped[int | None] 
-    type: Mapped[str] = mapped_column(ForeignKey("mechanism_type.id"))
+    mechanism_type_id: Mapped[str] = mapped_column(ForeignKey("mechanism_type.id"))
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    created_at: Mapped[created_at]
+    update_at:  Mapped[update_at]
     
-class Functions(Base): # различные функции механизма
-    __tablename__ = 'functions'
+    
+class Function(Base): # различные функции механизма
+    __tablename__ = 'function'
     id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] 
+    name: Mapped[str] = mapped_column(unique=True)
 
-class MechanismFunctions(Base): # соединение механизмов и функций
-    __tablename__ = 'mechanism_functions'
+class MechanismFunction(Base): # соединение механизмов и функций
+    __tablename__ = 'mechanism_function'
     id: Mapped[int] = mapped_column(primary_key=True)
     mechanism_id: Mapped[int] = mapped_column(ForeignKey("mechanism.id"))
-    functions_id: Mapped[int] = mapped_column(ForeignKey("functions.id"))
+    function_id: Mapped[int] = mapped_column(ForeignKey("function.id"))
 
 class MechanismType(Base): # механизмы
     __tablename__ = 'mechanism_type'
     id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] # Механические|Кварцевые
-
+    name: Mapped[str] = mapped_column(unique=True)
 
 
 # -------- Пользователь --------
 
 
-
-class Users(Base): # пользователь
-    __tablename__ = 'users'
+class User(Base): # пользователь
+    __tablename__ = 'user'
     id: Mapped[int] = mapped_column(primary_key=True)
-    login: Mapped[str]
+    email: Mapped[str] = mapped_column(unique=True)
+    login: Mapped[str] = mapped_column(unique=True)
     password: Mapped[str]
-    email: Mapped[str]
-    role: Mapped[str] 
-    
+    role_id: Mapped[str] = mapped_column(ForeignKey("role.id"))
+    avito_url: Mapped[str | None]
+    meshok_url: Mapped[str | None]
+    created_at: Mapped[created_at]
+    update_at: Mapped[update_at]
+
+class Role(Base): # роль пользователя
+    __tablename__ = 'role'
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column(unique=True)
+
 class Сollection(Base): # коллекция пользователя
     __tablename__ = 'collection'
     id: Mapped[int] = mapped_column(primary_key=True)
-    user_id: Mapped[int]
-    watch_id: Mapped[int]
+    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
+    watch_id: Mapped[int] = mapped_column(ForeignKey("watch.id"))
