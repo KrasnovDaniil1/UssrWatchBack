@@ -2,6 +2,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+
+
 app = FastAPI(title="UssrWatch API")
 
 app.add_middleware(
@@ -12,16 +14,27 @@ app.add_middleware(
 )
 
 # database
-from app.database import session 
+from crud.create import create_tables
+from database.config import engine
+from sqlalchemy.orm import sessionmaker
 
-session.createDatabase()
+Session = sessionmaker(engine)
+
+with Session() as session:
+    try:
+        create_tables()
+    except:
+        session.rollback()
+        raise
+    else:
+        session.commit()
 
 # routers
-from app.routers import watch as watch_routers
-from app.routers import mechanisms as mechanisms_routers
+from routers.watch import router as watch_routers
+from routers.mechanisms import router as mechanisms_routers
 
-app.include_router(watch_routers.router, prefix="/api", tags=["Watch"])
-app.include_router(mechanisms_routers.router, prefix="/api", tags=["Mechanisms"])
+app.include_router(watch_routers, prefix="/api", tags=["Watch"])
+app.include_router(mechanisms_routers, prefix="/api", tags=["Mechanisms"])
 
 
 

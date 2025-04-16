@@ -1,13 +1,9 @@
-from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy import ForeignKey, text
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy import ForeignKey, String, text
 from typing import Annotated
-from database.session import Base
 import datetime
 
-# посмотреть как делать уникальные значения
-# как вести документацию по таблицам
-# сделать цвет корпуса
-# добавить счетчик гейгера
+# огранисения по строкам добавить
 
 def utc_now():
     return datetime.now(datetime.timezone.utc)
@@ -27,7 +23,9 @@ update_at = Annotated[
     )
 ]   
 
-    
+class Base(DeclarativeBase):
+    pass
+
 # -------- Часы --------
 
 class Watch(Base): # часы
@@ -40,14 +38,14 @@ class Watch(Base): # часы
     mechanism_id: Mapped[int]  = mapped_column(ForeignKey("mechanism.id"))
     factory_id: Mapped[int] = mapped_column(ForeignKey("factory.id"))
     brand_id: Mapped[int] = mapped_column(ForeignKey("brand.id"))
-    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
     created_at: Mapped[created_at]
     update_at:  Mapped[update_at]
 
 class Factory(Base): # часовой завод
     __tablename__ = 'factory'
     id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(unique=True)
+    name: Mapped[str] = mapped_column(String(100), unique=True)
     
 class Alias(Base): # ключевые слова для часов
     __tablename__ = 'alias'
@@ -79,7 +77,7 @@ class Mechanism(Base): # механизмы
     id: Mapped[int] = mapped_column(primary_key=True)
     stones: Mapped[int | None] 
     mechanism_type_id: Mapped[str] = mapped_column(ForeignKey("mechanism_type.id"))
-    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
     created_at: Mapped[created_at]
     update_at:  Mapped[update_at]
     
