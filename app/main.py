@@ -1,18 +1,18 @@
 # database
-from crud.create import create_tables
-from database.config import engine
-from sqlalchemy.orm import sessionmaker
+# from crud.create import create_tables
+# from database.config import engine
+# from sqlalchemy.orm import sessionmaker
 
-Session = sessionmaker(engine)
+# Session = sessionmaker(engine)
 
-with Session() as session:
-    try:
-        create_tables()
-    except:
-        session.rollback()
-        raise
-    else:
-        session.commit()
+# with Session() as session:
+#     try:
+#         create_tables()
+#     except:
+#         session.rollback()
+#         raise
+#     else:
+#         session.commit()
 
 # app
 from fastapi import FastAPI
@@ -29,13 +29,13 @@ main_app.add_middleware(
 )
 
 # routers
-from api import router 
+from app.api import router 
 
 main_app.include_router(router, prefix="/api")
 
 # ! убрать
 if __name__ == "__main__":
-    uvicorn.run("app:main_app", reload=False)
+    uvicorn.run("main.py", reload=False)
 
 
     

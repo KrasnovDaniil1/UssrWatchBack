@@ -1,8 +1,31 @@
-### Запуск: 
+## Запуск: 
 
-### uvicorn app.main:main_app --reload
-### docker-compose -f docker-compose.yml up -d
+### Linux
+```bash
 
+docker-compose -f docker-compose.yml up -d
+
+python3 -m venv venv
+
+source venv/bin/activate
+
+pip install -r requirements.txt
+
+uvicorn app.main:main_app --reload
+```
+
+### Windows
+```bash
+docker-compose -f docker-compose.yml up -d
+
+python -m venv venv
+
+venv\Scripts\activate
+
+pip install -r requirements.txt
+
+uvicorn app.main:main_app --reload
+```
 
 # Часы
 
