@@ -1,8 +1,7 @@
 from fastapi import APIRouter
+from schemas import watch 
 
 router = APIRouter()
-
-from schemas import watch 
 
 @router.get("/watch")
 def get_watch() -> list[watch.WatchSchema]:

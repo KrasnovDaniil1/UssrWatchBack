@@ -32,6 +32,7 @@ class Watch(Base): # часы
     __tablename__ = 'watch'
     id: Mapped[int] = mapped_column(primary_key=True)
     folder: Mapped[str] = mapped_column(unique=True)
+    code: Mapped[int] = mapped_column(unique=True)
     integrated_bracelet: Mapped[bool]
     gender_id: Mapped[str] = mapped_column(ForeignKey("gender.id"))
     case_material_id: Mapped[int] = mapped_column(ForeignKey("case_material.id"))

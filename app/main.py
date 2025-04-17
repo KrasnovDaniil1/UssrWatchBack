@@ -1,18 +1,3 @@
-# app
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-
-
-
-app = FastAPI(title="UssrWatch API")
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins='http://localhost:8080',
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
 # database
 from crud.create import create_tables
 from database.config import engine
@@ -29,14 +14,28 @@ with Session() as session:
     else:
         session.commit()
 
+# app
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+import uvicorn
+
+main_app = FastAPI(title="UssrWatch API")
+
+main_app.add_middleware(
+    CORSMiddleware,
+    allow_origins='http://localhost:8080',
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 # routers
-from routers.watch import router as watch_routers
-from routers.mechanisms import router as mechanisms_routers
+from api import router 
 
-app.include_router(watch_routers, prefix="/api", tags=["Watch"])
-app.include_router(mechanisms_routers, prefix="/api", tags=["Mechanisms"])
+main_app.include_router(router, prefix="/api")
 
-
+# ! убрать
+if __name__ == "__main__":
+    uvicorn.run("main.py", reload=False)
 
 
     
