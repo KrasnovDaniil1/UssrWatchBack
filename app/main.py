@@ -35,7 +35,7 @@ main_app.include_router(router, prefix="/api")
 
 # ! убрать
 if __name__ == "__main__":
-    uvicorn.run("main.py", reload=False)
+    uvicorn.run("app:main_app", reload=False)
 
 
     
