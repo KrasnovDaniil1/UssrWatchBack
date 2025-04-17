@@ -1,9 +1,14 @@
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy import ForeignKey, String, text
 from typing import Annotated
+from app.database.database import Base
 import datetime
 
 # огранисения по строкам добавить
+# добавить где данные могут быть пустые
+#  почитать про Enum
+# почитать про relationship
+# добавить alembic
 
 def utc_now():
     return datetime.now(datetime.timezone.utc)
@@ -23,8 +28,6 @@ update_at = Annotated[
     )
 ]   
 
-class Base(DeclarativeBase):
-    pass
 
 # -------- Часы --------
 

@@ -1,18 +1,18 @@
 # database
-# from crud.create import create_tables
-# from database.config import engine
-# from sqlalchemy.orm import sessionmaker
+from app.crud.create import create_tables
+from app.database.config import engine
+from sqlalchemy.orm import sessionmaker
 
-# Session = sessionmaker(engine)
+Session = sessionmaker(engine)
 
-# with Session() as session:
-#     try:
-#         create_tables()
-#     except:
-#         session.rollback()
-#         raise
-#     else:
-#         session.commit()
+with Session() as session:
+    try:
+        create_tables()
+    except:
+        session.rollback()
+        raise
+    else:
+        session.commit()
 
 # app
 from fastapi import FastAPI
