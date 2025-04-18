@@ -1,3 +1,6 @@
+
+
+
 # -------- Часы --------
 
 factory_seed = [ # часовые заводы
@@ -36,6 +39,7 @@ brand_seed = [ # названия брэнда часов
     "foreign",
     "serkisof",
     "orex",
+    "mister anker"
 ]
 
 case_material_seed = [ # материалы корпуса часов
@@ -69,13 +73,13 @@ case_material_seed = [ # материалы корпуса часов
 
 ]
 
-watch_gender_seed = [ # пол часов
+gender_seed = [ # пол часов
     "мужские",
     "женские",
     "унисекс"
 ]
 
-functions_seed = [ # функции часов
+function_seed = [ # функции часов
     "автоподзавод",
     "ручной завод",
     "день недели",

@@ -27,6 +27,12 @@ pip install -r requirements.txt
 uvicorn app.main:main_app --reload
 ```
 
+### Миграции
+```bash
+alembic revision --autogenerate -m "Initial revision"
+
+```
+
 # Часы
 
 

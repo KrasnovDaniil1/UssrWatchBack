@@ -1,5 +1,7 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from sqlalchemy import create_engine
+
+from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, create_async_engine
 
 class Settings(BaseSettings):
     DB_HOST: str
@@ -15,6 +17,20 @@ class Settings(BaseSettings):
         return f"postgresql+asyncpg://{self.DB_USER}:{self.DB_PASS}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
     
 settings = Settings()
+
+DATABASE_URL = settings.DATABASE_URL_asyncpg
+
+engine = create_async_engine(
+    url = DATABASE_URL,
+    echo = True                                                            
+)
+async_session = async_sessionmaker(
+    engine, 
+    expire_on_commit=False
+)
+
+class Base(AsyncAttrs, DeclarativeBase):
+    __abstract__ = True 
 
 
 
