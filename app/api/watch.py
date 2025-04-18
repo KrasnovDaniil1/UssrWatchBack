@@ -5,7 +5,7 @@ router = APIRouter()
 from schemas import watch 
 
 @router.get("/watch")
-def get_watch() -> list[watch.WatchSchema]:
+def get_watch() -> list[watch.WatchGet]:
     return  {"message": 'sdf'}
     
 @router.get("/watch/{id}")
@@ -13,7 +13,7 @@ def get_watch_id(id: int):
     return  {"message": "Подробно о часах"}
 
 @router.post("/watch")
-def add_watch(watch: watch.WatchSchema):
+def add_watch(watch: watch.WatchGet):
     return  {"message": "Добавить часы"}
 
 @router.put("/watch")

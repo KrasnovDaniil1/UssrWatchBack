@@ -22,7 +22,7 @@ DATABASE_URL = settings.DATABASE_URL_asyncpg
 
 engine = create_async_engine(
     url = DATABASE_URL,
-    echo = True                                                            
+    echo = False                                                            
 )
 async_session = async_sessionmaker(
     engine, 
