@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy import ForeignKey, String, text
 from typing import Annotated
-from app.database.config import Base
+from database.config import Base
 import datetime
 
 # огранисения по строкам добавить

@@ -4,11 +4,11 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
 # routers
-from app.api import router 
+from api import router 
 
 # database
-from app.database.config import engine
-from app.crud.create import create_db, create_data
+from database.config import engine
+from crud.create import create_db, create_data
         
 async def lifespan(app: FastAPI):
     await create_db()
@@ -27,9 +27,11 @@ main_app.add_middleware(
 
 main_app.include_router(router, prefix="/api")
 
-# ! убрать
 if __name__ == "__main__":
-    uvicorn.run("main.py", reload=False)
+    uvicorn.run(
+        "main:main_app",
+        reload=True,
+    )
 
 
 

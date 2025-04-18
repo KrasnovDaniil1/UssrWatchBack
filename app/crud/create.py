@@ -1,7 +1,7 @@
-from app.database.config import engine, Base
-from app.database.config import async_session
-from app.database.models import Factory, Brand, CaseMaterial, Gender, Function, MechanismType, Role
-from app.database.seed_data import factory_seed, brand_seed, case_material_seed, gender_seed, function_seed, mechanism_type_seed, role_seed
+from database.config import engine, Base
+from database.config import async_session
+from database.models import Factory, Brand, CaseMaterial, Gender, Function, MechanismType, Role
+from database.seed_data import factory_seed, brand_seed, case_material_seed, gender_seed, function_seed, mechanism_type_seed, role_seed
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
