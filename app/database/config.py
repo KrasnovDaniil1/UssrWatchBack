@@ -3,6 +3,9 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, create_async_engine
 
+# добавить alembic
+# добавить таблицы для черновиков
+
 class Settings(BaseSettings):
     DB_HOST: str
     DB_PORT: int
@@ -22,7 +25,7 @@ DATABASE_URL = settings.DATABASE_URL_asyncpg
 
 engine = create_async_engine(
     url = DATABASE_URL,
-    echo = True                                                            
+    echo = False                                                            
 )
 async_session = async_sessionmaker(
     engine, 
