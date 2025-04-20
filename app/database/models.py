@@ -9,6 +9,7 @@ import datetime
 #  почитать про Enum
 # почитать про relationship
 # добавить alembic
+# добавить главного пользователя
 
 def utc_now():
     return datetime.now(datetime.timezone.utc)
@@ -36,7 +37,7 @@ class Watch(Base): # часы
     __tablename__ = 'watch'
     id: Mapped[int] = mapped_column(primary_key=True)
     folder: Mapped[str] = mapped_column(unique=True, nullable=False)
-    code: Mapped[int | None] = mapped_column(unique=True)
+    code: Mapped[int | None]
     integrated_bracelet: Mapped[bool] = mapped_column(default=False, nullable=False)
     gender_id: Mapped[int] = mapped_column(ForeignKey("gender.id"), nullable=False)
     case_material_id: Mapped[int] = mapped_column(ForeignKey("case_material.id"), nullable=False)
@@ -131,3 +132,46 @@ class Сollection(Base): # коллекция пользователя
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
     watch_id: Mapped[int] = mapped_column(ForeignKey("watch.id"), nullable=False)
 
+# -------- Черновик с часами --------
+
+class DraftWatch(Base): 
+    __tablename__ = 'draft_watch'
+    id: Mapped[int] = mapped_column(primary_key=True)
+    message: Mapped[str | None]
+    folder: Mapped[str] = mapped_column(unique=True)
+    code: Mapped[int | None]
+    integrated_bracelet: Mapped[bool] = mapped_column(default=False, nullable=False)
+    gender_id: Mapped[int | None] = mapped_column(ForeignKey("gender.id"))
+    case_material_id: Mapped[int | None] = mapped_column(ForeignKey("case_material.id"))
+    mechanism_id: Mapped[int | None]  = mapped_column(ForeignKey("mechanism.id"))
+    factory_id: Mapped[int | None] = mapped_column(ForeignKey("factory.id"))
+    brand_id: Mapped[int | None] = mapped_column(ForeignKey("brand.id"))
+    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
+    created_at: Mapped[created_at]
+    update_at:  Mapped[update_at]
+    
+class DraftAlias(Base): 
+    __tablename__ = 'draft_alias'
+    id: Mapped[int] = mapped_column(primary_key=True)
+    watch_id: Mapped[int] = mapped_column(ForeignKey("watch.id"), nullable=False)
+    key: Mapped[str] = mapped_column(String(50), nullable=False)
+    
+    
+# -------- Черновик с механизмами --------
+
+
+class DraftMechanism(Base):
+    __tablename__ = 'draft_mechanism'
+    id: Mapped[int] = mapped_column(primary_key=True)
+    message: Mapped[str | None]
+    stones: Mapped[int | None] 
+    mechanism_type_id: Mapped[int | None] = mapped_column(ForeignKey("mechanism_type.id"))
+    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
+    created_at: Mapped[created_at]
+    update_at:  Mapped[update_at]
+    
+class DraftMechanismFunction(Base):
+    __tablename__ = 'draft_mechanism_function'
+    id: Mapped[int] = mapped_column(primary_key=True)
+    mechanism_id: Mapped[int] = mapped_column(ForeignKey("mechanism.id"), nullable=False)
+    function_id: Mapped[int] = mapped_column(ForeignKey("function.id"), nullable=False)
