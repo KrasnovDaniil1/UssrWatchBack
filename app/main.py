@@ -8,7 +8,7 @@ from api import router
 
 # database
 from database.config import engine
-from crud.create import create_db, create_data
+from crud import create_db, create_data
         
 async def lifespan(app: FastAPI):
     await create_db()
