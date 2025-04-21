@@ -1,6 +1,6 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy.orm import DeclarativeBase, class_mapper
 from sqlalchemy.ext.asyncio import AsyncAttrs
 
 # добавить alembic
@@ -23,6 +23,10 @@ settings = Settings()
 
 class Base(AsyncAttrs, DeclarativeBase):
     __abstract__ = True 
+    
+    def to_dict(self) -> dict:
+        columns = class_mapper(self.__class__).columns
+        return {column.key: getattr(self, column.key) for column in columns}
 
 
 
