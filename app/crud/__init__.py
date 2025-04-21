@@ -1,5 +1,6 @@
-from database.config import engine, Base
-from database.config import async_session
+from database import engine, async_session
+from database.config import Base
+
 from database.models import Factory, Brand, CaseMaterial, Gender, Function, MechanismType, Role
 from database.seed_data import factory_seed, brand_seed, case_material_seed, gender_seed, function_seed, mechanism_type_seed, role_seed
 

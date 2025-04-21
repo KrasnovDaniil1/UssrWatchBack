@@ -83,6 +83,7 @@ class Mechanism(Base): # механизмы
     id: Mapped[int] = mapped_column(primary_key=True)
     stones: Mapped[int | None] 
     mechanism_type_id: Mapped[int | None] = mapped_column(ForeignKey("mechanism_type.id"))
+    factory_id: Mapped[int | None] = mapped_column(ForeignKey("factory.id"))
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
     created_at: Mapped[created_at]
     update_at:  Mapped[update_at]
@@ -166,6 +167,7 @@ class DraftMechanism(Base):
     message: Mapped[str | None]
     stones: Mapped[int | None] 
     mechanism_type_id: Mapped[int | None] = mapped_column(ForeignKey("mechanism_type.id"))
+    factory_id: Mapped[int | None] = mapped_column(ForeignKey("factory.id"))
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
     created_at: Mapped[created_at]
     update_at:  Mapped[update_at]

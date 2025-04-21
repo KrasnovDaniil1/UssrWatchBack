@@ -1,13 +1,10 @@
-# app
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
-# routers
 from api import router 
 
-# database
-from database.config import engine
+from database import engine
 from crud import create_db, create_data
         
 async def lifespan(app: FastAPI):
