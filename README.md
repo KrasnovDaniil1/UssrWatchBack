@@ -41,20 +41,22 @@ alembic revision --autogenerate -m "Initial revision"
 
 ## `watch` часы
 
-| Поле                | Тип        | Описание                  |
-| ------------------- | ---------- | ------------------------- |
-| id                  | INT PK     | ID часов                  |
-| folder              | STR UNIQUE | название папки            |
-| code                | STR UNIQUE | номер оформления          |
-| integrated_bracelet | BOOL       | Есть ли браслет           |
-| gender_id           | INT        | FK на `gender(id)`        |
-| case_material_id    | INT        | FK на `case_material(id)` |
-| mechanism_id        | INT        | FK на `mechanism(id)`     |
-| factory_id          | INT        | FK на `factory(id)`       |
-| brand_id            | INT        | FK на `brand(id)`         |
-| user_id             | INT        | FK на `user(id)`          |
-| created_at          | DATE       | дата создание             |
-| update_at           | DATE       | дата обновления           |
+| Поле                | Тип             | Описание                  |
+| ------------------- | --------------- | ------------------------- |
+| id                  | INT PK          | ID часов                  |
+| folder              | STR UNIQUE      | название папки            |
+| code                | STR None UNIQUE | номер оформления          |
+| integrated_bracelet | BOOL            | Есть ли браслет           |
+| start_release       | INT             | Начало производства       |
+| end_release         | INT             | Конец производства        |
+| gender_id           | INT             | FK на `gender(id)`        |
+| case_material_id    | INT             | FK на `case_material(id)` |
+| mechanism_id        | INT             | FK на `mechanism(id)`     |
+| factory_id          | INT             | FK на `factory(id)`       |
+| brand_id            | INT             | FK на `brand(id)`         |
+| user_id             | INT             | FK на `user(id)`          |
+| created_at          | DATE            | дата создание             |
+| update_at           | DATE            | дата обновления           |
 
 ---
 
@@ -69,11 +71,11 @@ alembic revision --autogenerate -m "Initial revision"
 
 ## `alias` ключевые слова часов
 
-| Поле     | Тип    | Описание         |
-| -------- | ------ | ---------------- |
-| id       | INT PK | ID               |
-| watch_id | STR    | FK на `watch(id) |
-| key      | STR    | Ключ             |
+| Поле     | Тип    | Описание          |
+| -------- | ------ | ----------------- |
+| id       | INT PK | ID                |
+| watch_id | STR    | FK на `watch(id)` |
+| key      | STR    | Ключ              |
 
 ---
 
@@ -106,14 +108,17 @@ alembic revision --autogenerate -m "Initial revision"
 
 ## `mechanism` механизмы
 
-| Поле              | Тип    | Описание                  |
-| ----------------- | ------ | ------------------------- |
-| id                | INT PK | ID механизма              |
-| stones            | STR    | кол. камней               |
-| mechanism_type_id | INT    | FK на `mechanism_type(id) |
-| user_id           | INT    | FK на `user(id)`          |
-| created_at        | DATE   | дата создание             |
-| update_at         | DATE   | дата обновления           |
+| Поле              | Тип    | Описание                   |
+| ----------------- | ------ | -------------------------- |
+| id                | INT PK | ID механизма               |
+| stones            | STR    | кол. камней                |
+| start_release     | INT    | Начало производства        |
+| end_release       | INT    | Конец производства         |
+| mechanism_type_id | INT    | FK на `mechanism_type(id)` |
+| factory_id        | INT    | FK на `factory(id)`        |
+| user_id           | INT    | FK на `user(id)`           |
+| created_at        | DATE   | дата создание              |
+| update_at         | DATE   | дата обновления            |
 
 ---
 
@@ -158,6 +163,7 @@ alembic revision --autogenerate -m "Initial revision"
 | role_id    | STR        | FK на `role(id)` |
 | avito_url  | STR        | ссылка на авито  |
 | meshok_url | STR        | ссылка на мешок  |
+| rating     | INT        | рэйтинг          |
 | created_at | DATE       | дата создание    |
 | update_at  | DATE       | дата обновления  |
 
@@ -174,8 +180,70 @@ alembic revision --autogenerate -m "Initial revision"
 
 ## `collection` коллекции пользователей
 
-| Поле     | Тип    | Описание         |
-| -------- | ------ | ---------------- |
-| id       | INT PK | ID               |
-| user_id  | INT    | FK на `user(id)` |
-| watch_id | INT    | FK на `watch(id) |
+| Поле     | Тип    | Описание          |
+| -------- | ------ | ----------------- |
+| id       | INT PK | ID                |
+| user_id  | INT    | FK на `user(id)`  |
+| watch_id | INT    | FK на `watch(id)` |
+
+---
+
+# Черновик с часами
+
+## `draft_watch` часы
+
+| Поле                | Тип        | Описание                  |
+| ------------------- | ---------- | ------------------------- |
+| id                  | INT PK     | ID часов                  |
+| message             | STR        | сообщение от админа       |
+| folder              | STR UNIQUE | название папки            |
+| code                | STR None   | номер оформления          |
+| integrated_bracelet | BOOL       | Есть ли браслет           |
+| start_release       | INT        | Начало производства       |
+| end_release         | INT        | Конец производства        |
+| gender_id           | INT        | FK на `gender(id)`        |
+| case_material_id    | INT        | FK на `case_material(id)` |
+| mechanism_id        | INT        | FK на `mechanism(id)`     |
+| factory_id          | INT        | FK на `factory(id)`       |
+| brand_id            | INT        | FK на `brand(id)`         |
+| user_id             | INT        | FK на `user(id)`          |
+| created_at          | DATE       | дата создание             |
+| update_at           | DATE       | дата обновления           |
+
+---
+
+## `draft_alias` ключевые слова часов
+
+| Поле     | Тип    | Описание          |
+| -------- | ------ | ----------------- |
+| id       | INT PK | ID                |
+| watch_id | STR    | FK на `watch(id)` |
+| key      | STR    | Ключ              |
+
+---
+
+## `draft_mechanism` механизмы
+
+| Поле              | Тип    | Описание                   |
+| ----------------- | ------ | -------------------------- |
+| id                | INT PK | ID механизма               |
+| message           | STR    | сообщение от админа        |
+| stones            | STR    | кол. камней                |
+| start_release     | INT    | Начало производства        |
+| end_release       | INT    | Конец производства         |
+| mechanism_type_id | INT    | FK на `mechanism_type(id)` |
+| user_id           | INT    | FK на `user(id)`           |
+| created_at        | DATE   | дата создание              |
+| update_at         | DATE   | дата обновления            |
+
+---
+
+## `draft_mechanism_function` соединение механизмов и функций
+
+| Поле         | Тип    | Описание              |
+| ------------ | ------ | --------------------- |
+| id           | INT PK | ID                    |
+| mechanism_id | INT    | FK на `mechanism(id)` |
+| function_id  | INT    | FK на `function(id)`  |
+
+---
