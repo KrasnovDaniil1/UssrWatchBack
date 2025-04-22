@@ -29,6 +29,7 @@ brand_seed = [ # названия брэнда часов
     "зим",
     "звезда",
     
+    
     "мир",
     "весна",
     "аврора",
@@ -55,18 +56,24 @@ brand_seed = [ # названия брэнда часов
     "амфибия",
     
     
-    
     "sekonda",
     "cornarvin",
-    "execta",
+    "exacta",
     "foreign",
     "serkisof",
     "orex",
     "mister anker",
+    "fabuna",
+    "sport",
+    "sulinad",
+    
+    
     "poljot",
     "slava",
     "wostok",
     "raketa",
+    "zarja",
+    "chaika"
 ]
 
 case_material_seed = [ # материалы корпуса часов

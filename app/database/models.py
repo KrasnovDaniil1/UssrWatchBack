@@ -39,6 +39,8 @@ class Watch(Base): # часы
     folder: Mapped[str] = mapped_column(unique=True, nullable=False)
     code: Mapped[int | None]
     integrated_bracelet: Mapped[bool] = mapped_column(default=False, nullable=False)
+    start_release: Mapped[int | None] = mapped_column()
+    end_release: Mapped[int | None] = mapped_column()
     gender_id: Mapped[int] = mapped_column(ForeignKey("gender.id"), nullable=False)
     case_material_id: Mapped[int] = mapped_column(ForeignKey("case_material.id"), nullable=False)
     mechanism_id: Mapped[int | None]  = mapped_column(ForeignKey("mechanism.id"))
@@ -82,6 +84,8 @@ class Mechanism(Base): # механизмы
     __tablename__ = 'mechanism'
     id: Mapped[int] = mapped_column(primary_key=True)
     stones: Mapped[int | None] 
+    start_release: Mapped[int | None] = mapped_column()
+    end_release: Mapped[int | None] = mapped_column()
     mechanism_type_id: Mapped[int | None] = mapped_column(ForeignKey("mechanism_type.id"))
     factory_id: Mapped[int | None] = mapped_column(ForeignKey("factory.id"))
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
@@ -142,6 +146,8 @@ class DraftWatch(Base):
     folder: Mapped[str] = mapped_column(unique=True)
     code: Mapped[int | None]
     integrated_bracelet: Mapped[bool] = mapped_column(default=False, nullable=False)
+    start_release: Mapped[int | None] = mapped_column()
+    end_release: Mapped[int | None] = mapped_column()
     gender_id: Mapped[int | None] = mapped_column(ForeignKey("gender.id"))
     case_material_id: Mapped[int | None] = mapped_column(ForeignKey("case_material.id"))
     mechanism_id: Mapped[int | None]  = mapped_column(ForeignKey("mechanism.id"))
@@ -166,6 +172,8 @@ class DraftMechanism(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     message: Mapped[str | None]
     stones: Mapped[int | None] 
+    start_release: Mapped[int | None] = mapped_column()
+    end_release: Mapped[int | None] = mapped_column()
     mechanism_type_id: Mapped[int | None] = mapped_column(ForeignKey("mechanism_type.id"))
     factory_id: Mapped[int | None] = mapped_column(ForeignKey("factory.id"))
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
