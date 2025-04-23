@@ -1,22 +1,25 @@
 from fastapi import APIRouter
+from schemas.user import GetUserId, GetUser
 
 router = APIRouter()
 
-from schemas import users
-
-@router.get("/user/{id}")
-def get_user_id(id: int):
+@router.get("/users")
+def get_users_id() -> list[GetUser]:
     return {"message": "Подробно о пользователе"}
 
-@router.post("/user")
-def add_user(user: users.UserAdd):
+@router.get("/users/{id}")
+def get_users_id(id: int) -> GetUserId:
+    return {"message": "Подробно о пользователе"}
+
+@router.post("/users/{id}")
+def post_users_id(id: int):
     return  {"message": "Добавить пользователя"}
 
-@router.put("/user")
-def change_user(user: users.UserPut):
+@router.put("/users/{id}")
+def put_users_id(id: int):
     return  {"message": "Изменить пользователя"}
 
-@router.delete("/user")
-def remove_user(id: int):
+@router.delete("/users/{id}")
+def delete_users_id(id: int):
     return  {"message": "Удалить пользователя"}
 
