@@ -4,20 +4,20 @@ import uvicorn
 
 from api import router 
 
-from database import engine
+# from database import engine
 from crud import create_db, create_data
 
 from asyncio import run
-from crud.brand import create_brand, select_all_brand
+# from crud.seed_data import select_all_brand
+
 async def lifespan(app: FastAPI):
     await create_db()
     await create_data()
-    await create_brand("test")
-    all_users = await select_all_brand()
-    for i in all_users:
-        print(i.to_dict())
+    # all_users = await select_all_brand()
+    # for i in all_users:
+    #     print(i.to_dict())
     yield
-    await engine.dispose()
+    # await engine.dispose()
 
 
 main_app = FastAPI(title="UssrWatch API", lifespan = lifespan)
