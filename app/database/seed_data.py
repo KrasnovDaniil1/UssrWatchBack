@@ -132,9 +132,22 @@ mechanism_type_seed = [
     "электро-магнитные",
 ]
 
-role_seed = [ # роли пользователей
-    "пользователь",
-    "админ",
-    "заблокирован",
-    "создатель",
+
+admin_seed = [
+    {
+        "name": "admin",
+        "password": "admin@admin.admin"
+    }
+]
+
+user_test = [
+    {
+        "name":"admin",
+        "email":"admin",
+        "oauth_provider":"admin",
+        "oauth_id":"admin",
+        "avito_url":"admin",
+        "meshok_url":"admin",
+        "rating": 10
+    }
 ]

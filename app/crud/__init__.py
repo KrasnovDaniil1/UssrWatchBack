@@ -1,8 +1,8 @@
 from database import engine, async_session
 from database.config import Base
 
-from database.models import Factory, Brand, CaseMaterial, Gender, Function, MechanismType, Role
-from database.seed_data import factory_seed, brand_seed, case_material_seed, gender_seed, function_seed, mechanism_type_seed, role_seed
+from database.models import Factory, Brand, CaseMaterial, Gender, Function, MechanismType, Admin, User
+from database.seed_data import factory_seed, brand_seed, case_material_seed, gender_seed, function_seed, mechanism_type_seed, admin_seed, user_test
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -15,6 +15,17 @@ async def seed_unique(session: AsyncSession, model, field_name: str, values: lis
         
         if not exists:
             session.add(model(**{field_name: value}))
+
+    await session.commit()
+    
+async def seed_admin(session: AsyncSession, model,  field_name: str, values: list[dict]):
+    for value in values:
+        stmt = select(model).where(getattr(model, field_name) == value["name"])
+        result = await session.execute(stmt)
+        exists = result.scalar_one_or_none()
+        
+        if not exists:
+            session.add(model(**value))
 
     await session.commit()
 
@@ -33,6 +44,10 @@ async def create_data():
         await seed_unique(session, Gender, "name", gender_seed)
         await seed_unique(session, Function, "name", function_seed)
         await seed_unique(session, MechanismType, "name", mechanism_type_seed)
-        await seed_unique(session, Role, "name", role_seed)
+        await seed_admin(session, Admin, "name", admin_seed)
+        await seed_admin(session, User, "name", user_test)
+        
+        
+        
         
     

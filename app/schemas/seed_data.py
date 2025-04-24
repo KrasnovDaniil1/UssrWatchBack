@@ -15,5 +15,4 @@ class GetSeedData(BaseModel):
     gender_seed: list[SeedItem]
     function_seed: list[SeedItem]
     mechanism_type_seed: list[SeedItem]
-    role_seed: list[SeedItem]
     

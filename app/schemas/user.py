@@ -5,7 +5,6 @@ from datetime import datetime
 class GetUser(BaseModel):
     id: int = Field(..., description="ID пользователя")
     email: EmailStr = Field(..., description="Email пользователя")
-    role: str = Field(..., description="Роль пользователя")
     rating: int = Field(..., description="Рэйтинг")
     created_at: datetime = Field(..., description="Дата создание")
     update_at: datetime = Field(..., description="Дата обновления")
@@ -15,7 +14,6 @@ class GetUserId(BaseModel):
     login: str = Field(..., description="Логин пользователя")
     password: SecretStr = Field(..., description="Пароль пользователя")
     email: EmailStr = Field(..., description="Email пользователя")
-    role: str = Field(..., description="Роль пользователя")
     avito_url: HttpUrl = Field(..., description="Ссылка на авито")
     meshok_url: HttpUrl = Field(..., description="Ссылка на мешок")
     rating: int = Field(..., description="Рэйтинг")
@@ -29,7 +27,6 @@ class UserBase(BaseModel):
 
 class UserAdd(UserBase):
     password: SecretStr = Field(..., min_length=8, description="Пароль (минимум 8 символов)")
-    role_id: str = Field(..., description="ID роли пользователя")
     avito_url: Optional[str] = Field(None, max_length=255)
     meshok_url: Optional[str] = Field(None, max_length=255)
 
@@ -49,10 +46,7 @@ class UserPut(BaseModel):
         None, 
         description="Новый email пользователя (уникальный)"
     )
-    role_id: Optional[str] = Field(
-        None, 
-        description="ID новой роли пользователя"
-    )
+
     avito_url: Optional[str] = Field(
         None, 
         max_length=255, 

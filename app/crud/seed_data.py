@@ -2,7 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 
 from database import connection
-from database.models import Factory, Brand, CaseMaterial, Gender, Function, MechanismType, Role
+from database.models import Factory, Brand, CaseMaterial, Gender, Function, MechanismType
 from schemas.seed_data import GetSeedData, SeedItem
 
 @connection
@@ -13,7 +13,6 @@ async def get_seed_data(session: AsyncSession) -> GetSeedData:
     gender = (await session.execute(select(Gender))).scalars().all()
     function = (await session.execute(select(Function))).scalars().all()
     mechanism_type = (await session.execute(select(MechanismType))).scalars().all()
-    role = (await session.execute(select(Role))).scalars().all()
 
     return GetSeedData(
         factory_seed = [SeedItem(**item.to_dict()) for item in factory],
@@ -22,7 +21,6 @@ async def get_seed_data(session: AsyncSession) -> GetSeedData:
         gender_seed = [SeedItem(**item.to_dict()) for item in gender],
         function_seed = [SeedItem(**item.to_dict()) for item in function],
         mechanism_type_seed = [SeedItem(**item.to_dict()) for item in mechanism_type],
-        role_seed = [SeedItem(**item.to_dict()) for item in role]
     )
 
 

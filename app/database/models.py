@@ -39,12 +39,12 @@ class Watch(Base): # часы
     folder: Mapped[str] = mapped_column(unique=True, nullable=False)
     code: Mapped[int | None]
     integrated_bracelet: Mapped[bool] = mapped_column(default=False, nullable=False)
-    start_release: Mapped[int | None] = mapped_column()
-    end_release: Mapped[int | None] = mapped_column()
+    start_release: Mapped[int]
+    end_release: Mapped[int]
     gender_id: Mapped[int] = mapped_column(ForeignKey("gender.id"), nullable=False)
     case_material_id: Mapped[int] = mapped_column(ForeignKey("case_material.id"), nullable=False)
-    mechanism_id: Mapped[int | None]  = mapped_column(ForeignKey("mechanism.id"))
-    factory_id: Mapped[int | None] = mapped_column(ForeignKey("factory.id"))
+    mechanism_id: Mapped[int]  = mapped_column(ForeignKey("mechanism.id"))
+    factory_id: Mapped[int] = mapped_column(ForeignKey("factory.id"))
     brand_id: Mapped[int] = mapped_column(ForeignKey("brand.id"), nullable=False)
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
     created_at: Mapped[created_at]
@@ -84,8 +84,8 @@ class Mechanism(Base): # механизмы
     __tablename__ = 'mechanism'
     id: Mapped[int] = mapped_column(primary_key=True)
     stones: Mapped[int | None] 
-    start_release: Mapped[int | None] = mapped_column()
-    end_release: Mapped[int | None] = mapped_column()
+    start_release: Mapped[int]
+    end_release: Mapped[int]
     mechanism_type_id: Mapped[int | None] = mapped_column(ForeignKey("mechanism_type.id"))
     factory_id: Mapped[int | None] = mapped_column(ForeignKey("factory.id"))
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
@@ -116,20 +116,18 @@ class MechanismType(Base): # механизмы
 class User(Base): # пользователь
     __tablename__ = 'user'
     id: Mapped[int] = mapped_column(primary_key=True)
-    email: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
-    login: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
-    password: Mapped[str] = mapped_column(String(50), nullable=False)
-    role_id: Mapped[int] = mapped_column(ForeignKey("role.id"), nullable=False)
+    name: Mapped[str | None]
+    
+    email: Mapped[str] = mapped_column(unique=True, nullable=False)
+    oauth_provider: Mapped[str] = mapped_column(nullable=False)  
+    oauth_id: Mapped[str] = mapped_column(nullable=False, unique=True) 
+    
     avito_url: Mapped[str | None]
     meshok_url: Mapped[str | None]
-    rating: Mapped[int | None]
+    rating: Mapped[int] = mapped_column(default=0, nullable=False)
     created_at: Mapped[created_at]
     update_at: Mapped[update_at]
 
-class Role(Base): # роль пользователя
-    __tablename__ = 'role'
-    id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
 
 class Сollection(Base): # коллекция пользователя
     __tablename__ = 'collection'
@@ -137,6 +135,21 @@ class Сollection(Base): # коллекция пользователя
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
     watch_id: Mapped[int] = mapped_column(ForeignKey("watch.id"), nullable=False)
 
+class Admin(Base):
+    __tablename__ = 'admin'
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column(unique=True, nullable=False)
+    password: Mapped[str] = mapped_column(nullable=False)
+    created_at: Mapped[created_at]
+    update_at: Mapped[update_at]
+    
+class Blocked(Base):
+    __tablename__ = 'blocked'
+    id: Mapped[int] = mapped_column(primary_key=True)
+    email: Mapped[str] = mapped_column(unique=True, nullable=False)
+    created_at: Mapped[created_at]
+    update_at: Mapped[update_at]
+    
 # -------- Черновик с часами --------
 
 class DraftWatch(Base): 
