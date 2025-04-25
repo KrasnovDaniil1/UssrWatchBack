@@ -1,8 +1,5 @@
 
 
-
-# -------- Часы --------
-
 factory_seed = [ # часовые заводы
     "1МЧЗ имени Кирова",
     "Петродворцовый часовой завод",
@@ -14,7 +11,7 @@ factory_seed = [ # часовые заводы
     "Ульяновский часовой завод",
 ]
 
-brand_seed = [ # названия брэнда часов
+brand_seed = [ # брэнды часов
     "полёт",
     "слава",
     "ракета",
@@ -72,7 +69,7 @@ brand_seed = [ # названия брэнда часов
     "chaika"
 ]
 
-case_material_seed = [ # материалы корпуса часов
+case_material_seed = [ # материалы корпуса
     "титан",
     "сталь",
     "дерево",
@@ -110,7 +107,7 @@ gender_seed = [ # пол
     "детские"
 ]
 
-function_seed = [ # функции часов
+function_seed = [ # уникальные функции часов
     "автоподзавод",
     "ручной завод",
     "день недели",
@@ -126,137 +123,18 @@ function_seed = [ # функции часов
     
 ]
 
-mechanism_type_seed = [
+mechanism_type_seed = [ # тип механизма
     "механика",
     "кварц",
     "электро-магнитные",
 ]
 
 
-admin_seed = [
+admin_seed = [ # админы
     {
         "name": "admin",
         "password": "admin@admin.admin"
     }
 ]
 
-user_test = [
-    {
-        "name":"test1",
-        "email":"test1",
-        "oauth_provider":"test1",
-        "oauth_id":"test1",
-        "avito_url":"test1",
-        "meshok_url":"test1",
-        "rating": 10
-    },
-    {
-        "name":"test2",
-        "email":"test2",
-        "oauth_provider":"test2",
-        "oauth_id":"test2",
-        "avito_url":"test2",
-        "meshok_url":"test2",
-        "rating": 10
-    }
-]
 
-mechanism_test = [
-    {
-        "stones": 18,
-        "release": 1900,
-        "mechanism_type_id": 1,
-        "factory_id": 1,
-        "user_id": 1
-    },
-    {
-        "stones": 22,
-        "release": 1950,
-        "mechanism_type_id": 1,
-        "factory_id": 2,
-        "user_id": 1
-    },
-    {
-        "stones": 17,
-        "release": 2000,
-        "mechanism_type_id": 1,
-        "factory_id": 1,
-        "user_id": 2
-    },
-]
-
-mechanism_function_test = [
-    {
-        "mechanism_id": 1,
-        "function_id": 1
-    },
-    {
-        "mechanism_id": 1,
-        "function_id": 2
-    },
-    {
-        "mechanism_id": 2,
-        "function_id": 3
-    },
-    {
-        "mechanism_id": 3,
-        "function_id": 4
-    },
-]
-
-alias_test = [
-    {
-        "watch_id": 1,
-        "key": "министерка"
-    },
-    {
-        "watch_id": 1,
-        "key": "джинс"
-    },
-    {
-        "watch_id": 2,
-        "key": "нвч"
-    }
-]
-
-
-watch_test = [
-    {
-        "folder": "test1",
-        "code": 1234,
-        "integrated_bracelet": True,
-        "start_release": 1900,
-        "end_release": 1950,
-        "gender_id": 1,
-        "case_material_id": 1,
-        "mechanism_id": 1,
-        "factory_id": 1,
-        "brand_id": 1,
-        "user_id": 1
-    },
-    {
-        "folder": "test3",
-        "code": 1234,
-        "start_release": 1800,
-        "end_release": 1950,
-        "gender_id": 1,
-        "case_material_id": 1,
-        "mechanism_id": 1,
-        "factory_id": 1,
-        "brand_id": 1,
-        "user_id": 1
-    },
-    {
-        "folder": "test2",
-        "code": 123456,
-        "integrated_bracelet": True,
-        "start_release": 1950,
-        "end_release": 1990,
-        "gender_id": 2,
-        "case_material_id": 3,
-        "mechanism_id": 2,
-        "factory_id": 2,
-        "brand_id": 2,
-        "user_id": 2
-    },
-]

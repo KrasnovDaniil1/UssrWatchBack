@@ -1,199 +1,130 @@
-from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy import ForeignKey, String, text
-from typing import Annotated
-from database.config import Base
-import datetime
+from sqlalchemy.orm import Mapped
+
+from database.config import *
 
 # огранисения по строкам добавить
 # добавить где данные могут быть пустые
-#  почитать про Enum
+# почитать про Enum
 # почитать про relationship
 # добавить alembic
 # добавить главного пользователя
 
-def utc_now():
-    return datetime.now(datetime.timezone.utc)
+# завод
+class Factory(Base, PKMixin):
+    name: Mapped[str_unique_nullable] 
 
-created_at = Annotated[
-    datetime.datetime, 
-    mapped_column(
-        server_default = text("TIMEZONE('utc', now())"), 
-        nullable=False
-    )
-] 
+# брэнд часов
+class Brand(Base, PKMixin): 
+    name: Mapped[str_unique_nullable]
 
-update_at = Annotated[
-    datetime.datetime, 
-    mapped_column(
-        server_default = text("TIMEZONE('utc', now())"),
-        onupdate = utc_now, 
-        nullable=False
-    )
-]   
+# материал корпуса
+class CaseMaterial(Base, PKMixin): 
+    name: Mapped[str_unique_nullable]
 
-# -------- Часы --------
+# пол
+class Gender(Base, PKMixin):
+    name: Mapped[str_unique_nullable]
 
-class Watch(Base): # часы
-    __tablename__ = 'watch'
-    id: Mapped[int] = mapped_column(primary_key=True)
-    folder: Mapped[str] = mapped_column(unique=True, nullable=False)
-    code: Mapped[int | None]
-    integrated_bracelet: Mapped[bool] = mapped_column(default=False, nullable=False)
-    start_release: Mapped[int]
-    end_release: Mapped[int | None]
-    gender_id: Mapped[int] = mapped_column(ForeignKey("gender.id"), nullable=False)
-    case_material_id: Mapped[int] = mapped_column(ForeignKey("case_material.id"), nullable=False)
-    mechanism_id: Mapped[int]  = mapped_column(ForeignKey("mechanism.id"))
-    factory_id: Mapped[int] = mapped_column(ForeignKey("factory.id"))
-    brand_id: Mapped[int] = mapped_column(ForeignKey("brand.id"), nullable=False)
-    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
-    created_at: Mapped[created_at]
-    update_at:  Mapped[update_at]
+# функции механизмов
+class Function(Base, PKMixin): 
+    name: Mapped[str_unique_nullable]
 
-class Factory(Base): # часовой завод
-    __tablename__ = 'factory'
-    id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
-    
-class Alias(Base): # ключевые слова для часов
-    __tablename__ = 'alias'
-    id: Mapped[int] = mapped_column(primary_key=True)
-    watch_id: Mapped[int] = mapped_column(ForeignKey("watch.id"), nullable=False)
-    key: Mapped[str] = mapped_column(String(50), nullable=False)
+# тип механизма
+class MechanismType(Base, PKMixin):
+    name: Mapped[str_unique_nullable]
 
-class Brand(Base): # название брэнда часов
-    __tablename__ = 'brand'
-    id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
-
-class CaseMaterial(Base): # материал корпуса часов
-    __tablename__ = 'case_material'
-    id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
-
-class Gender(Base):
-    __tablename__ = 'gender'
-    id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
-    
-
-# -------- Механизмы --------
-
-
-class Mechanism(Base): # механизмы
-    __tablename__ = 'mechanism'
-    id: Mapped[int] = mapped_column(primary_key=True)
-    stones: Mapped[int | None] 
-    release: Mapped[int]
-    mechanism_type_id: Mapped[int] = mapped_column(ForeignKey("mechanism_type.id"))
-    factory_id: Mapped[int | None] = mapped_column(ForeignKey("factory.id"))
-    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
-    created_at: Mapped[created_at]
-    update_at:  Mapped[update_at]
-    
-    
-class Function(Base): # различные функции механизма
-    __tablename__ = 'function'
-    id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
-
-class MechanismFunction(Base): # соединение механизмов и функций
-    __tablename__ = 'mechanism_function'
-    id: Mapped[int] = mapped_column(primary_key=True)
-    mechanism_id: Mapped[int] = mapped_column(ForeignKey("mechanism.id"), nullable=False)
-    function_id: Mapped[int] = mapped_column(ForeignKey("function.id"), nullable=False)
-
-class MechanismType(Base): # механизмы
-    __tablename__ = 'mechanism_type'
-    id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
-
-
-# -------- Пользователь --------
-
-
-class User(Base): # пользователь
-    __tablename__ = 'user'
-    id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str | None]
-    
-    email: Mapped[str] = mapped_column(unique=True, nullable=False)
-    oauth_provider: Mapped[str] = mapped_column(nullable=False)  
-    oauth_id: Mapped[str] = mapped_column(nullable=False, unique=True) 
-    
+# пользователи
+class User(Base, PKMixin, TimestampMixin): 
+    name: Mapped[str_unique_nullable]
+    email: Mapped[str_unique_nullable]
+    oauth_provider: Mapped[str_nullable] 
+    oauth_id: Mapped[str_unique_nullable]
+    rating: Mapped[int_0_nullable]
     avito_url: Mapped[str | None]
     meshok_url: Mapped[str | None]
-    rating: Mapped[int] = mapped_column(default=0, nullable=False)
-    created_at: Mapped[created_at]
-    update_at: Mapped[update_at]
 
+# механизмы
+class Mechanism(Base, PKMixin, TimestampMixin):
+    folder: Mapped[str_unique_nullable]
+    stones: Mapped[int_nullable] 
+    release: Mapped[int_nullable]
+    mechanism_type_id: Mapped[int] = Base.foreign_key_nullable(MechanismType)
+    factory_id: Mapped[int] = Base.foreign_key_nullable(Factory)
+    user_id: Mapped[int] = Base.foreign_key_nullable(User)
 
-class Сollection(Base): # коллекция пользователя
-    __tablename__ = 'collection'
-    id: Mapped[int] = mapped_column(primary_key=True)
-    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
-    watch_id: Mapped[int] = mapped_column(ForeignKey("watch.id"), nullable=False)
+# несколько функций механизмов
+class MechanismFunction(Base, PKMixin): 
+    mechanism_id: Mapped[int] = Base.foreign_key_nullable(Mechanism)
+    function_id: Mapped[int] = Base.foreign_key_nullable(Function)
 
-class Admin(Base):
-    __tablename__ = 'admin'
-    id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(unique=True, nullable=False)
-    password: Mapped[str] = mapped_column(nullable=False)
-    created_at: Mapped[created_at]
-    update_at: Mapped[update_at]
-    
-class Blocked(Base):
-    __tablename__ = 'blocked'
-    id: Mapped[int] = mapped_column(primary_key=True)
-    email: Mapped[str] = mapped_column(unique=True, nullable=False)
-    created_at: Mapped[created_at]
-    update_at: Mapped[update_at]
-    
-# -------- Черновик с часами --------
-
-class DraftWatch(Base): 
-    __tablename__ = 'draft_watch'
-    id: Mapped[int] = mapped_column(primary_key=True)
-    message: Mapped[str | None]
-    folder: Mapped[str] = mapped_column(unique=True)
+# часы
+class Watch(Base, PKMixin, TimestampMixin):
+    folder: Mapped[str_unique_nullable]
     code: Mapped[int | None]
-    integrated_bracelet: Mapped[bool] = mapped_column(default=False, nullable=False)
-    start_release: Mapped[int | None] = mapped_column()
-    end_release: Mapped[int | None] = mapped_column()
-    gender_id: Mapped[int | None] = mapped_column(ForeignKey("gender.id"))
-    case_material_id: Mapped[int | None] = mapped_column(ForeignKey("case_material.id"))
-    mechanism_id: Mapped[int | None]  = mapped_column(ForeignKey("mechanism.id"))
-    factory_id: Mapped[int | None] = mapped_column(ForeignKey("factory.id"))
-    brand_id: Mapped[int | None] = mapped_column(ForeignKey("brand.id"))
-    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
-    created_at: Mapped[created_at]
-    update_at:  Mapped[update_at]
-    
-class DraftAlias(Base): 
-    __tablename__ = 'draft_alias'
-    id: Mapped[int] = mapped_column(primary_key=True)
-    watch_id: Mapped[int] = mapped_column(ForeignKey("watch.id"), nullable=False)
-    key: Mapped[str] = mapped_column(String(50), nullable=False)
-    
-    
-# -------- Черновик с механизмами --------
+    integrated_bracelet: Mapped[bool_default_unique]
+    start_release: Mapped[int_nullable]
+    end_release: Mapped[int_nullable]
+    gender_id: Mapped[int] = Base.foreign_key_nullable(Gender)
+    case_material_id: Mapped[int] = Base.foreign_key_nullable(CaseMaterial)
+    mechanism_id: Mapped[int]  = Base.foreign_key_nullable(Mechanism)
+    factory_id: Mapped[int] = Base.foreign_key_nullable(Factory)
+    brand_id: Mapped[int] = Base.foreign_key_nullable(Brand)
+    user_id: Mapped[int] = Base.foreign_key_nullable(User)
 
+# ключевые слова к часам
+class Alias(Base, PKMixin): 
+    key: Mapped[str_nullable]
+    watch_id: Mapped[int] = Base.foreign_key_nullable(Watch)
 
-class DraftMechanism(Base):
-    __tablename__ = 'draft_mechanism'
-    id: Mapped[int] = mapped_column(primary_key=True)
+# коллекция пользователя
+class Collection(Base, PKMixin): 
+    user_id: Mapped[int] = Base.foreign_key_nullable(User)
+    watch_id: Mapped[int] = Base.foreign_key_nullable(Watch)
+
+# аккаунты админов
+class Admin(Base, PKMixin, TimestampMixin):
+    name: Mapped[str_unique_nullable]
+    password: Mapped[str_nullable] 
+
+# заблокированные аккаунты 
+class Blocked(Base, PKMixin, TimestampMixin):
+    email: Mapped[str_unique_nullable]
+    
+# черновик - часы 
+class DraftWatch(Base, PKMixin, TimestampMixin): 
     message: Mapped[str | None]
-    stones: Mapped[int | None] 
-    start_release: Mapped[int | None] = mapped_column()
-    end_release: Mapped[int | None] = mapped_column()
-    mechanism_type_id: Mapped[int | None] = mapped_column(ForeignKey("mechanism_type.id"))
-    factory_id: Mapped[int | None] = mapped_column(ForeignKey("factory.id"))
-    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
-    created_at: Mapped[created_at]
-    update_at:  Mapped[update_at]
+    folder: Mapped[str_unique_nullable]
+    code: Mapped[int | None]
+    integrated_bracelet: Mapped[bool_default_unique]
+    start_release: Mapped[int | None]
+    end_release: Mapped[int | None]
+    gender_id: Mapped[int | None] = Base.foreign_key(Gender)
+    case_material_id: Mapped[int | None] = Base.foreign_key(CaseMaterial)
+    mechanism_id: Mapped[int | None]  =Base.foreign_key(Mechanism)
+    factory_id: Mapped[int | None] = Base.foreign_key(Factory)
+    brand_id: Mapped[int | None] = Base.foreign_key(Brand)
+    user_id: Mapped[int] = Base.foreign_key(User)
+    admin_id: Mapped[int | None] = Base.foreign_key(Admin)
     
-class DraftMechanismFunction(Base):
-    __tablename__ = 'draft_mechanism_function'
-    id: Mapped[int] = mapped_column(primary_key=True)
-    mechanism_id: Mapped[int] = mapped_column(ForeignKey("mechanism.id"), nullable=False)
-    function_id: Mapped[int] = mapped_column(ForeignKey("function.id"), nullable=False)
+# черновик - ключевые слова 
+class DraftAlias(Base, PKMixin): 
+    key: Mapped[str_nullable]
+    watch_id: Mapped[int] = Base.foreign_key_nullable(Watch)
+    
+# черновик - механизмы
+class DraftMechanism(Base, PKMixin, TimestampMixin):
+    message: Mapped[str | None]
+    folder: Mapped[str_unique_nullable]
+    stones: Mapped[int | None] 
+    start_release: Mapped[int | None]
+    mechanism_type_id: Mapped[int | None] = Base.foreign_key(MechanismType)
+    factory_id: Mapped[int | None] = Base.foreign_key(Factory)
+    user_id: Mapped[int] = Base.foreign_key_nullable(User)
+    admin_id: Mapped[int | None] = Base.foreign_key(Admin)
+
+# черновик - несколько функций механизмов
+class DraftMechanismFunction(Base, PKMixin):
+    mechanism_id: Mapped[int] = Base.foreign_key_nullable(Mechanism)
+    function_id: Mapped[int] = Base.foreign_key_nullable(Function)
+    
+    

@@ -3,6 +3,8 @@ from database.config import Base
 
 from database.models import *
 from database.seed_data import *
+from database.test_data import *
+
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -36,6 +38,12 @@ async def create_data():
         await seed_other(session, MechanismFunction, mechanism_function_test)
         await seed_other(session, Watch, watch_test)
         await seed_other(session, Alias, alias_test)
+        await seed_other(session, Collection, collection_test)
+        await seed_other(session, Blocked, blocked_test)
+        await seed_other(session, DraftWatch, draft_watch_test)
+        await seed_other(session, DraftAlias, draft_alias_test)
+        await seed_other(session, DraftMechanism, draft_mechanism_test)
+        await seed_other(session, DraftMechanismFunction, draft_mechanism_function_test)
         
         
 async def seed_unique(session: AsyncSession, model, field_name: str, values: list[str]):
