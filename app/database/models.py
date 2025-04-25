@@ -40,7 +40,7 @@ class Watch(Base): # часы
     code: Mapped[int | None]
     integrated_bracelet: Mapped[bool] = mapped_column(default=False, nullable=False)
     start_release: Mapped[int]
-    end_release: Mapped[int]
+    end_release: Mapped[int | None]
     gender_id: Mapped[int] = mapped_column(ForeignKey("gender.id"), nullable=False)
     case_material_id: Mapped[int] = mapped_column(ForeignKey("case_material.id"), nullable=False)
     mechanism_id: Mapped[int]  = mapped_column(ForeignKey("mechanism.id"))
@@ -84,9 +84,8 @@ class Mechanism(Base): # механизмы
     __tablename__ = 'mechanism'
     id: Mapped[int] = mapped_column(primary_key=True)
     stones: Mapped[int | None] 
-    start_release: Mapped[int]
-    end_release: Mapped[int]
-    mechanism_type_id: Mapped[int | None] = mapped_column(ForeignKey("mechanism_type.id"))
+    release: Mapped[int]
+    mechanism_type_id: Mapped[int] = mapped_column(ForeignKey("mechanism_type.id"))
     factory_id: Mapped[int | None] = mapped_column(ForeignKey("factory.id"))
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
     created_at: Mapped[created_at]

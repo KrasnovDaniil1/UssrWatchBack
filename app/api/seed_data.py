@@ -10,15 +10,9 @@ router = APIRouter()
 
 @router.get("/seed_data")
 async def get_user_id() -> GetSeedData:
-    try:
-        return await get_seed_data()
-    except:
-        return {"error": "Данные не получены"}
+    return await get_seed_data()
 
 # добавить проверку для админа
 @router.put("/update_seed_data")
 async def get_user_id(auth_admin: UpdateSeedData):
-    try:
-        return await create_data()
-    except:
-        return {"message": "Ошибка Обновление данных"}
+    return await create_data()

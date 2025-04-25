@@ -1,20 +1,15 @@
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
 from api import router 
+from api.errors import register_handlers
 
-from database import engine
-from crud import create_db, create_data
+from crud import start_db
 
-async def lifespan(app: FastAPI):
-    await create_db()
-    await create_data()
-    yield
-    await engine.dispose()
-
-
-main_app = FastAPI(title="UssrWatch API", lifespan = lifespan)
+main_app = FastAPI(title="UssrWatch API", lifespan = start_db)
+register_handlers(main_app)
 
 main_app.add_middleware(
     CORSMiddleware,
