@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Mapped
+from sqlalchemy.orm import Mapped, relationship
 
 from database.config import *
 
@@ -28,6 +28,7 @@ class Gender(Base, PKMixin):
 # функции механизмов
 class Function(Base, PKMixin): 
     name: Mapped[str_unique_nullable]
+    mechanism_functions: Mapped[list["MechanismFunction"]] = relationship("MechanismFunction", back_populates="function")
 
 # тип механизма
 class MechanismType(Base, PKMixin):
@@ -48,14 +49,27 @@ class Mechanism(Base, PKMixin, TimestampMixin):
     folder: Mapped[str_unique_nullable]
     stones: Mapped[int_nullable] 
     release: Mapped[int_nullable]
+    
     mechanism_type_id: Mapped[int] = Base.foreign_key_nullable(MechanismType)
+    mechanism_type = relationship(MechanismType, lazy="joined")
+    
     factory_id: Mapped[int] = Base.foreign_key_nullable(Factory)
+    factory = relationship(Factory, lazy="joined")
+    
     user_id: Mapped[int] = Base.foreign_key_nullable(User)
+    user = relationship(User, lazy="joined")
+    
+    function_all: Mapped[list["MechanismFunction"]] = relationship("MechanismFunction", back_populates="mechanism", lazy="joined")
+    
 
 # несколько функций механизмов
 class MechanismFunction(Base, PKMixin): 
     mechanism_id: Mapped[int] = Base.foreign_key_nullable(Mechanism)
+    mechanism: Mapped[Mechanism] = relationship(Mechanism, back_populates="function_all", lazy="joined")
+    
     function_id: Mapped[int] = Base.foreign_key_nullable(Function)
+    function: Mapped[Function] = relationship(Function, back_populates="mechanism_functions", lazy="joined")
+    
 
 # часы
 class Watch(Base, PKMixin, TimestampMixin):
@@ -64,17 +78,33 @@ class Watch(Base, PKMixin, TimestampMixin):
     integrated_bracelet: Mapped[bool_default_unique]
     start_release: Mapped[int_nullable]
     end_release: Mapped[int_nullable]
+    
     gender_id: Mapped[int] = Base.foreign_key_nullable(Gender)
+    gender = relationship(Gender, lazy="joined")
+    
     case_material_id: Mapped[int] = Base.foreign_key_nullable(CaseMaterial)
+    case_material = relationship(CaseMaterial, lazy="joined")
+    
     mechanism_id: Mapped[int]  = Base.foreign_key_nullable(Mechanism)
+    mechanism = relationship(Mechanism, lazy="joined")
+    
     factory_id: Mapped[int] = Base.foreign_key_nullable(Factory)
+    factory = relationship(Factory, lazy="joined")
+    
     brand_id: Mapped[int] = Base.foreign_key_nullable(Brand)
+    brand = relationship(Brand, lazy="joined")
+    
     user_id: Mapped[int] = Base.foreign_key_nullable(User)
+    user = relationship(User, lazy="joined")
+    
+    alias_all: Mapped[list["Alias"]] = relationship("Alias", back_populates="watch", lazy="joined")
+    
 
 # ключевые слова к часам
 class Alias(Base, PKMixin): 
     key: Mapped[str_nullable]
     watch_id: Mapped[int] = Base.foreign_key_nullable(Watch)
+    watch: Mapped[Watch] = relationship(Watch, back_populates="alias_all", lazy="joined")
 
 # коллекция пользователя
 class Collection(Base, PKMixin): 

@@ -5,8 +5,8 @@ from crud.watch import get_all_watch
 router = APIRouter()
 
 @router.get("/watch")
-def get_watch() -> list[GetWatch]:
-    return get_all_watch()
+async def get_watch() -> list[GetWatch]:
+    return await get_all_watch()
     
 @router.get("/watch/{id}")
 def get_watch_id(id: int) -> GetWatchId:

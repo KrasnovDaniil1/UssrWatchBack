@@ -1,11 +1,13 @@
 from fastapi import APIRouter
 from schemas.mechanism import GetMechanismId, GetMechanism
 
+from crud.mechanism import get_all_mechanism
+
 router = APIRouter()
 
 @router.get("/mechanisms")
-def get_mechanisms() -> list[GetMechanism]:
-    return  {"message": 'получение всех механизмов'}
+async def get_mechanisms() -> list[GetMechanism]:
+    return await get_all_mechanism()
 
 @router.get("/mechanisms/{id}")
 def get_mechanisms_id(id: int)-> GetMechanismId:
