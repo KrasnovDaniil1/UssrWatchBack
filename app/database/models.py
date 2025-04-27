@@ -50,6 +50,8 @@ class Mechanism(Base, PKMixin, TimestampMixin):
     stones: Mapped[int_nullable] 
     release: Mapped[int_nullable]
     
+    code: Mapped[str_nullable]
+    
     mechanism_type_id: Mapped[int] = Base.foreign_key_nullable(MechanismType)
     mechanism_type = relationship(MechanismType, lazy="joined")
     

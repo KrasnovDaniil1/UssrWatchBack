@@ -5,6 +5,7 @@ from datetime import datetime
 class GetMechanism(BaseModel):
     id: int 
     folder: str
+    code: str
     release: int 
     mechanism_type: str 
     factory: str 

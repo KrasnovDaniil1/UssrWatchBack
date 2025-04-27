@@ -15,7 +15,7 @@ async def get_all_mechanism(session: AsyncSession) -> list[GetMechanism]:
         .options(
             selectinload(Mechanism.mechanism_type),
             selectinload(Mechanism.factory),
-            selectinload(Mechanism.function_all),
+            selectinload(Mechanism.function_all).selectinload(MechanismFunction.function),
             
         )
         )
@@ -27,10 +27,11 @@ async def get_all_mechanism(session: AsyncSession) -> list[GetMechanism]:
             id=mechanism.id,
             folder=mechanism.folder,
             release=mechanism.release,
-            mechanism_type=mechanism.mechanism_type,
-            factory=mechanism.factory,
-            function=[function.name for function in mechanism.function_all]
+            mechanism_type=mechanism.mechanism_type.name,
+            code=mechanism.code,
+            factory=mechanism.factory.name,
+            function=[mf.function.name for mf in mechanism.function_all]
             
         ))
-    
+
     return mechanisms

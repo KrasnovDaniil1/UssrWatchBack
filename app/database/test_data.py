@@ -22,6 +22,7 @@ user_test = [
 mechanism_test = [
     {
         "folder": "f1",
+        "code": "полет 2428",
         "stones": 18,
         "release": 1900,
         "mechanism_type_id": 1,
@@ -30,6 +31,7 @@ mechanism_test = [
     },
     {
         "folder": "f2",
+        "code": "ракета 2428",
         "stones": 22,
         "release": 1950,
         "mechanism_type_id": 2,
@@ -38,6 +40,7 @@ mechanism_test = [
     },
     {
         "folder": "f3",
+        "code": "зим 2428",
         "stones": 17,
         "release": 2000,
         "mechanism_type_id": 3,
