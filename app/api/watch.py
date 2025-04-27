@@ -12,15 +12,8 @@ async def get_watch() -> list[GetWatch]:
 def get_watch_id(id: int) -> GetWatchId:
     return  {"message": "Подробно о часах"}
 
-@router.post("/watch/{id}")
-def post_watch_id(id: int):
-    return  {"message": "Добавить часы"}
+@router.put("/watch/draft/{id}")
+def get_watch_id(id: int):
+    return  {"message": "Отправить часы в черновик"}
 
-@router.put("/watch/{id}")
-def put_watch_id(id: int):
-    return  {"message": "Изменить часы"}
-
-@router.delete("/watch/{id}")
-def delete_watch_id(id: int):
-    return  {"message": "Удалить часы"}
     

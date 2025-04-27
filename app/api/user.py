@@ -15,15 +15,11 @@ def get_users_id() -> list[GetUser]:
 def get_users_id(id: int) -> GetUserId:
     return {"message": "Подробно о пользователе"}
 
-@router.post("/users/{id}")
-def post_users_id(id: int):
-    return  {"message": "Добавить пользователя"}
-
 @router.put("/users/{id}")
 def put_users_id(id: int):
     return  {"message": "Изменить пользователя"}
 
 @router.delete("/users/{id}")
 def delete_users_id(id: int):
-    return  {"message": "Удалить пользователя"}
+    return  {"message": "добавление в черный список"}
 
