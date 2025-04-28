@@ -14,6 +14,8 @@ async def get_seed_data(session: AsyncSession) -> GetSeedData:
     function = (await session.execute(select(Function))).scalars().all()
     mechanism_type = (await session.execute(select(MechanismType))).scalars().all()
     return GetSeedData(
+        all_count_watch = 20,
+        all_count_mechanism = 20,
         factory_seed = [SeedItem(**item.to_dict()) for item in factory],
         brand_seed = [SeedItem(**item.to_dict()) for item in brand],
         case_material_seed = [SeedItem(**item.to_dict()) for item in case_material],

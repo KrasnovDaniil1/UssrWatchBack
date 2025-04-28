@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, ConfigDict, HttpUrl
+from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional, List
 from datetime import datetime
 
@@ -14,22 +14,22 @@ class GetWatch(BaseModel):
     
     
 class GetWatchId(BaseModel):
-    id: int = Field(..., description="ID часов")
-    folder_src: list[HttpUrl] = Field(..., description="Список ссылок на изображения")
-    code: int = Field(..., description="Номер оформления")
-    integrated_bracelet: bool = Field(..., description="Есть ли браслет")
-    start_release: int = Field(..., description="Начало производства")
-    end_release: int = Field(..., description="Конец производства")
-    gender: str = Field(..., description="Пол")
-    case_material: str = Field(..., description="Материал корпуса")
-    mechanism: str = Field(..., description="Механизм")
-    factory: str = Field(..., description="Завод часов")
-    brand: str = Field(..., description="Брэнд часов")
-    user: str = Field(..., description="id пользователя часов")
-    created_at: datetime = Field(..., description="Дата создание")
-    update_at: datetime = Field(..., description="Дата обновления")
-    
-    
+    id: int 
+    folder: str
+    code: int 
+    description: str
+    integrated_bracelet: bool 
+    start_release: int 
+    end_release: int 
+    gender: str 
+    case_material: str 
+    mechanism: str 
+    factory: str 
+    brand: str 
+    user: str 
+    created_at: datetime 
+    updated_at: datetime 
+    alias: list[str]
     
 
 # нейронка

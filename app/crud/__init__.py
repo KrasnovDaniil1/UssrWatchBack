@@ -37,7 +37,6 @@ async def create_data():
         await seed_other(session, Mechanism, mechanism_test)
         await seed_other(session, MechanismFunction, mechanism_function_test)
         await seed_other(session, Watch, watch_test)
-        await seed_other(session, Alias, alias_test)
         await seed_other(session, Collection, collection_test)
         await seed_other(session, Blocked, blocked_test)
         await seed_other(session, DraftWatch, draft_watch_test)

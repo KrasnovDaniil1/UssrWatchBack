@@ -9,8 +9,8 @@ class SeedItem(BaseModel):
     name: str  
 
 class GetSeedData(BaseModel):
-    all_page_watch: int
-    all_page_mechanism: int
+    all_count_watch: int
+    all_count_mechanism: int
     factory_seed: list[SeedItem]
     brand_seed: list[SeedItem]
     case_material_seed: list[SeedItem]

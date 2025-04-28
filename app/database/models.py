@@ -2,12 +2,7 @@ from sqlalchemy.orm import Mapped, relationship
 
 from database.config import *
 
-# огранисения по строкам добавить
-# добавить где данные могут быть пустые
-# почитать про Enum
-# почитать про relationship
 # добавить alembic
-# добавить главного пользователя
 
 # завод
 class Factory(Base, PKMixin):
@@ -76,7 +71,8 @@ class MechanismFunction(Base, PKMixin):
 # часы
 class Watch(Base, PKMixin, TimestampMixin):
     folder: Mapped[str_unique_nullable]
-    code: Mapped[int | None]
+    code: Mapped[str | None]
+    description: Mapped[str | None]
     integrated_bracelet: Mapped[bool_default_unique]
     start_release: Mapped[int_nullable]
     end_release: Mapped[int_nullable]
@@ -99,14 +95,8 @@ class Watch(Base, PKMixin, TimestampMixin):
     user_id: Mapped[int] = Base.foreign_key_nullable(User)
     user = relationship(User, lazy="joined")
     
-    alias_all: Mapped[list["Alias"]] = relationship("Alias", back_populates="watch", lazy="joined")
+    alias: Mapped[str | None]
     
-
-# ключевые слова к часам
-class Alias(Base, PKMixin): 
-    key: Mapped[str_nullable]
-    watch_id: Mapped[int] = Base.foreign_key_nullable(Watch)
-    watch: Mapped[Watch] = relationship(Watch, back_populates="alias_all", lazy="joined")
 
 # коллекция пользователя
 class Collection(Base, PKMixin): 

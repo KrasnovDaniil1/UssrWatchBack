@@ -22,7 +22,7 @@ user_test = [
 mechanism_test = [
     {
         "folder": "f1",
-        "code": "полет 2428",
+        "code": "2428H",
         "stones": 18,
         "release": 1900,
         "mechanism_type_id": 1,
@@ -31,7 +31,7 @@ mechanism_test = [
     },
     {
         "folder": "f2",
-        "code": "ракета 2428",
+        "code": "2209",
         "stones": 22,
         "release": 1950,
         "mechanism_type_id": 2,
@@ -40,7 +40,7 @@ mechanism_test = [
     },
     {
         "folder": "f3",
-        "code": "зим 2428",
+        "code": "2209",
         "stones": 17,
         "release": 2000,
         "mechanism_type_id": 3,
@@ -70,17 +70,35 @@ mechanism_function_test = [
 
 watch_test = [
     {
-        "folder": "test1",
-        "code": 1234,
+        "folder": "папка на картинку",
+        "code": '1234',
+        "description": "Крутые часы, в единственном экземпляре",
         "integrated_bracelet": True,
-        "start_release": 1900,
-        "end_release": 1950,
+        "start_release": 1970,
+        "end_release": 1975,
         "gender_id": 1,
         "case_material_id": 1,
         "mechanism_id": 1,
         "factory_id": 1,
         "brand_id": 1,
-        "user_id": 1
+        "user_id": 1,
+        "alias": "нвч министерка"
+    },
+    {
+        "folder": "test2",
+        "code": '123456',
+        "description": "tetsttes2",
+        "integrated_bracelet": True,
+        "start_release": 1950,
+        "end_release": 1990,
+        "gender_id": 2,
+        "case_material_id": 3,
+        "mechanism_id": 2,
+        "factory_id": 3,
+        "brand_id": 3,
+        "user_id": 2,
+        "alias": "джинс амфибия",
+        
     },
     {
         "folder": "test3",
@@ -91,35 +109,23 @@ watch_test = [
         "mechanism_id": 1,
         "factory_id": 2,
         "brand_id": 2,
-        "user_id": 1
+        "user_id": 1,
+        "alias": "министерка амфибия"
     },
-    {
-        "folder": "test2",
-        "code": 123456,
-        "integrated_bracelet": True,
-        "start_release": 1950,
-        "end_release": 1990,
-        "gender_id": 2,
-        "case_material_id": 3,
-        "mechanism_id": 2,
-        "factory_id": 3,
-        "brand_id": 3,
-        "user_id": 2
-    },
+
 ]
 
 alias_test = [
     {
         "watch_id": 1,
-        "key": "министерка"
+        
     },
     {
-        "watch_id": 1,
-        "key": "джинс"
+        "watch_id": 3,
     },
     {
         "watch_id": 2,
-        "key": "нвч"
+        
     }
 ]
 

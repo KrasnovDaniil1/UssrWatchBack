@@ -17,9 +17,9 @@ async def get_all_mechanism(session: AsyncSession) -> list[GetMechanism]:
             selectinload(Mechanism.factory),
             selectinload(Mechanism.function_all).selectinload(MechanismFunction.function),
             
-        )
-        )
-    all_mechanism = result.scalars().all()
+        ).order_by(Mechanism.id)
+    )
+    all_mechanism = result.unique().scalars().all()
     mechanisms = []
 
     for mechanism in all_mechanism:
