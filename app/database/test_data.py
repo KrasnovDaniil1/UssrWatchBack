@@ -1,5 +1,6 @@
 user_test = [
     {
+        "folder":"f1",
         "name":"test1",
         "email":"test1",
         "oauth_provider":"test1",
@@ -9,6 +10,7 @@ user_test = [
         "meshok_url":"test1"
     },
     {
+        "folder":"f2",
         "name":"test2",
         "email":"test2",
         "oauth_provider":"test2",

@@ -1,6 +1,11 @@
 from fastapi import APIRouter
 from schemas.user import GetUserId, GetUser
 
+from crud.user import get_user_by_id
+
+from api.errors import NotFoundError
+
+
 router = APIRouter()
 
 @router.post("/users/authorization")
@@ -12,8 +17,12 @@ def get_users_id() -> list[GetUser]:
     return {"message": "Подробно о пользователе"}
 
 @router.get("/users/{id}")
-def get_users_id(id: int) -> GetUserId:
-    return {"message": "Подробно о пользователе"}
+async def get_users_id(id: int) -> GetUserId:
+    user = await get_user_by_id(id = id)
+    
+    if user is None:
+        raise NotFoundError("Такого пользователя нет в базе")
+    return user 
 
 @router.put("/users/{id}")
 def put_users_id(id: int):

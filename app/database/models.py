@@ -31,6 +31,7 @@ class MechanismType(Base, PKMixin):
 
 # пользователи
 class User(Base, PKMixin, TimestampMixin): 
+    folder: Mapped[str_unique_nullable]
     name: Mapped[str_unique_nullable]
     email: Mapped[str_unique_nullable]
     oauth_provider: Mapped[str_nullable] 
@@ -38,12 +39,14 @@ class User(Base, PKMixin, TimestampMixin):
     rating: Mapped[int_0_nullable]
     avito_url: Mapped[str | None]
     meshok_url: Mapped[str | None]
+    description: Mapped[str | None]
 
 # механизмы
 class Mechanism(Base, PKMixin, TimestampMixin):
     folder: Mapped[str_unique_nullable]
     stones: Mapped[int_nullable] 
     release: Mapped[int_nullable]
+    description: Mapped[str | None]
     
     code: Mapped[str_nullable]
     

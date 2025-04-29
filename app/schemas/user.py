@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, SecretStr, Field, HttpUrl
+from pydantic import BaseModel, EmailStr, SecretStr, Field
 from typing import Optional
 from datetime import datetime
 
@@ -10,15 +10,13 @@ class GetUser(BaseModel):
     update_at: datetime = Field(..., description="Дата обновления")
 
 class GetUserId(BaseModel):
-    id: int = Field(..., description="ID пользователя")
-    login: str = Field(..., description="Логин пользователя")
-    password: SecretStr = Field(..., description="Пароль пользователя")
-    email: EmailStr = Field(..., description="Email пользователя")
-    avito_url: HttpUrl = Field(..., description="Ссылка на авито")
-    meshok_url: HttpUrl = Field(..., description="Ссылка на мешок")
-    rating: int = Field(..., description="Рэйтинг")
-    created_at: datetime = Field(..., description="Дата создание")
-    update_at: datetime = Field(..., description="Дата обновления")
+    id: int 
+    folder: str
+    description: str | None
+    avito_url: str | None
+    meshok_url: str | None
+    rating: int 
+    created_at: datetime 
 
 # нейронка
 class UserBase(BaseModel):
