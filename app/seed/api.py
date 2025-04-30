@@ -1,10 +1,9 @@
 from fastapi import APIRouter
 
-from schemas.seed_data import UpdateSeedData, GetSeedData
+from seed.schema import UpdateSeedData, GetSeedData
+from seed.crud import get_seed_data
 
-from crud.seed_data import get_seed_data
-
-from crud import create_data
+from init.crud import create_data
 
 router = APIRouter()
 

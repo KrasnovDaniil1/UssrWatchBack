@@ -5,7 +5,6 @@ from database.models import *
 from database.seed_data import *
 from database.test_data import *
 
-
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -28,7 +27,6 @@ async def create_data():
         await seed_unique(session, Factory, "name", factory_seed)
         await seed_unique(session, Brand, "name", brand_seed)
         await seed_unique(session, CaseMaterial, "name", case_material_seed)
-        await seed_unique(session, Gender, "name", gender_seed)
         await seed_unique(session, Function, "name", function_seed)
         await seed_unique(session, MechanismType, "name", mechanism_type_seed)
         await seed_admin(session, Admin, "name", admin_seed)
@@ -38,7 +36,6 @@ async def create_data():
         await seed_other(session, MechanismFunction, mechanism_function_test)
         await seed_other(session, Watch, watch_test)
         await seed_other(session, Collection, collection_test)
-        await seed_other(session, Blocked, blocked_test)
         await seed_other(session, DraftWatch, draft_watch_test)
         await seed_other(session, DraftAlias, draft_alias_test)
         await seed_other(session, DraftMechanism, draft_mechanism_test)

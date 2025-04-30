@@ -14,7 +14,6 @@ class GetSeedData(BaseModel):
     factory_seed: list[SeedItem]
     brand_seed: list[SeedItem]
     case_material_seed: list[SeedItem]
-    gender_seed: list[SeedItem]
     function_seed: list[SeedItem]
     mechanism_type_seed: list[SeedItem]
     

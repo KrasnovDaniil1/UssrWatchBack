@@ -1,9 +1,9 @@
 from fastapi import APIRouter
-from schemas.user import GetUserId, GetUser
 
-from crud.user import get_user_by_id
+from user.schema import GetUserId, GetUser
+from user.crud import get_user_by_id
 
-from api.errors import NotFoundError
+from init.error import NotFoundError
 
 
 router = APIRouter()

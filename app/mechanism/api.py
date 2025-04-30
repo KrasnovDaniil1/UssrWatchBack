@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Query
-from schemas.mechanism import GetMechanismId, GetMechanism
-
-from crud.mechanism import get_all_mechanism, get_mechanism_by_id
-
-from api.errors import NotFoundError
-
 from typing import Optional
+
+from mechanism.schema import GetMechanismId, GetMechanism
+from mechanism.crud import get_all_mechanism, get_mechanism_by_id
+
+from init.error import NotFoundError
+
 
 router = APIRouter()
 

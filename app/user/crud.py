@@ -1,12 +1,14 @@
+from typing import Optional
+
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, or_
 from sqlalchemy.orm import selectinload
 
 from database import connection
 from database.models import * 
-from schemas.user import GetUserId
 
-from typing import Optional
+from user.schema import GetUserId
+
 
 @connection
 async def get_user_by_id(id: int, session: AsyncSession) -> GetUserId | None:

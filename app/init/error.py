@@ -26,7 +26,7 @@ async def not_know_handler(request: Request, exc: Exception):
     logger.exception(f"DB error: Не обработанная ошибка")
     return JSONResponse(status_code=500, content={"detail": "Не обработанная ошибка"})
 
-def register_handlers(app):
+def error_handler(app):
     app.add_exception_handler(NotFoundError, not_found_handler)
     app.add_exception_handler(RequestValidationError, validation_handler)
     app.add_exception_handler(SQLAlchemyError, sqlalchemy_handler)

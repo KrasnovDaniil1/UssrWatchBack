@@ -3,13 +3,12 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from api import router 
-from api.errors import register_handlers
-
-from crud import start_db
+from init.api import router 
+from init.error import error_handler
+from init.crud import start_db
 
 main_app = FastAPI(title="UssrWatch API", lifespan = start_db)
-register_handlers(main_app)
+error_handler(main_app)
 
 main_app.add_middleware(
     CORSMiddleware,

@@ -4,7 +4,8 @@ from sqlalchemy.orm import selectinload
 
 from database import connection
 from database.models import * 
-from schemas.watch import GetWatch, GetWatchId
+
+from watch.schema import GetWatch, GetWatchId
 
 from typing import Optional
 
@@ -20,7 +21,6 @@ async def get_watch_all(
     ) -> list[GetWatch]:
     
     query = select(Watch).options(
-        selectinload(Watch.gender),
         selectinload(Watch.case_material),
         selectinload(Watch.brand),
         selectinload(Watch.mechanism),
@@ -55,7 +55,7 @@ async def get_watch_all(
             start_release=watch.start_release,
             end_release=watch.end_release,
             case_material=watch.case_material.name,
-            gender=watch.gender.name,
+            gender=watch.gender,
             brand=watch.brand.name,
             alias = watch.alias.split()
         )
@@ -68,7 +68,6 @@ async def get_watch_by_id(id: int, session: AsyncSession) -> GetWatchId | None:
     result = await session.execute(
         select(Watch)
         .options(
-            selectinload(Watch.gender),
             selectinload(Watch.case_material),
             selectinload(Watch.brand),
             selectinload(Watch.mechanism),
@@ -93,7 +92,7 @@ async def get_watch_by_id(id: int, session: AsyncSession) -> GetWatchId | None:
         created_at = watch.created_at, 
         updated_at = watch.updated_at,  
         factory=watch.factory.name,
-        gender=watch.gender.name,
+        gender=watch.gender,
         case_material=watch.case_material.name,
         user=watch.user.name,
         brand=watch.brand.name,

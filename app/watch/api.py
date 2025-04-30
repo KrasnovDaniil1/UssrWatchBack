@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Query
-from schemas.watch import GetWatch, GetWatchId
-from crud.watch import get_watch_all, get_watch_by_id
+from watch.schema import GetWatch, GetWatchId
+from watch.crud import get_watch_all, get_watch_by_id
 
-from api.errors import NotFoundError
+from init.error import NotFoundError
 
 from typing import Optional
 

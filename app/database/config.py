@@ -1,12 +1,14 @@
-
-from sqlalchemy import ForeignKey, text
+from sqlalchemy import ForeignKey, text , Enum as SqlEnum
 from sqlalchemy.orm import DeclarativeBase, class_mapper, mapped_column, Mapped, mapped_column
 from sqlalchemy.ext.asyncio import AsyncAttrs
 from sqlalchemy.ext.declarative import declared_attr
+from sqlalchemy.sql import expression
 
 from typing import Type, Annotated
 
 import datetime
+
+from enum import Enum
 
 # добавить alembic
 
@@ -48,10 +50,32 @@ class PKMixin:
     @declared_attr
     def id(cls) -> Mapped[int]:
         return mapped_column(primary_key=True)
-    
+
+class GenderEnum(str, Enum):
+    WOMAN = "w"
+    MAN = "m"
+    ALL = "a"
+    CHILDREN = "c"
+
+class GenderMixin:
+    gender: Mapped[GenderEnum] = mapped_column(
+        SqlEnum(
+            GenderEnum, 
+            name="gender_enum", 
+            validate_strings=True,
+            native_enum=False,
+            values_callable=lambda enum: [e.value for e in enum],
+        ),
+        nullable=False,
+        default=GenderEnum.MAN,
+        server_default=GenderEnum.MAN.value,
+    )
+
 str_unique_nullable = Annotated[
     str, 
-    mapped_column(unique=True, nullable=False)
+    mapped_column(
+        unique=True, 
+        nullable=False)
 ] 
 
 str_nullable = Annotated[
@@ -69,14 +93,28 @@ int_nullable = Annotated[
     mapped_column(nullable=False)
 ] 
 
-bool_default_unique = Annotated[
+bool_default_false = Annotated[
     bool, 
-    mapped_column(default=False, nullable=False)
+    mapped_column(
+        default=False, 
+        server_default=expression.literal('false'), 
+        nullable=False)
 ] 
 
-int_0_nullable = Annotated[
+bool_default_true = Annotated[
+    bool, 
+    mapped_column(
+        default=True, 
+        server_default=expression.literal('true'), 
+        nullable=False)
+] 
+
+int_default_0 = Annotated[
     int, 
-    mapped_column(default=0, nullable=False)
+    mapped_column(
+        default=0, 
+        server_default="0", 
+        nullable=False)
 ] 
 
 

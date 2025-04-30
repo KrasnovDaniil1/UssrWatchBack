@@ -1,15 +1,15 @@
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
-from sqlalchemy.orm import selectinload
-
 from fastapi import Query
 
 from typing import Optional
 
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
+from sqlalchemy.orm import selectinload
 
 from database import connection
 from database.models import * 
-from schemas.mechanism import *
+
+from mechanism.schema import *
 
 # не работает
 @connection

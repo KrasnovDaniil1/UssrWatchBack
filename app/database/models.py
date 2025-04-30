@@ -16,10 +16,6 @@ class Brand(Base, PKMixin):
 class CaseMaterial(Base, PKMixin): 
     name: Mapped[str_unique_nullable]
 
-# пол
-class Gender(Base, PKMixin):
-    name: Mapped[str_unique_nullable]
-
 # функции механизмов
 class Function(Base, PKMixin): 
     name: Mapped[str_unique_nullable]
@@ -36,10 +32,11 @@ class User(Base, PKMixin, TimestampMixin):
     email: Mapped[str_unique_nullable]
     oauth_provider: Mapped[str_nullable] 
     oauth_id: Mapped[str_unique_nullable]
-    rating: Mapped[int_0_nullable]
+    rating: Mapped[int_default_0]
     avito_url: Mapped[str | None]
     meshok_url: Mapped[str | None]
     description: Mapped[str | None]
+    active: Mapped[bool_default_true]
 
 # механизмы
 class Mechanism(Base, PKMixin, TimestampMixin):
@@ -72,16 +69,13 @@ class MechanismFunction(Base, PKMixin):
     
 
 # часы
-class Watch(Base, PKMixin, TimestampMixin):
+class Watch(Base, PKMixin, TimestampMixin, GenderMixin):
     folder: Mapped[str_unique_nullable]
     code: Mapped[str | None]
     description: Mapped[str | None]
-    integrated_bracelet: Mapped[bool_default_unique]
+    integrated_bracelet: Mapped[bool_default_false]
     start_release: Mapped[int_nullable]
     end_release: Mapped[int_nullable]
-    
-    gender_id: Mapped[int] = Base.foreign_key_nullable(Gender)
-    gender = relationship(Gender, lazy="joined")
     
     case_material_id: Mapped[int] = Base.foreign_key_nullable(CaseMaterial)
     case_material = relationship(CaseMaterial, lazy="joined")
@@ -111,19 +105,15 @@ class Admin(Base, PKMixin, TimestampMixin):
     name: Mapped[str_unique_nullable]
     password: Mapped[str_nullable] 
 
-# заблокированные аккаунты 
-class Blocked(Base, PKMixin, TimestampMixin):
-    email: Mapped[str_unique_nullable]
     
 # черновик - часы 
-class DraftWatch(Base, PKMixin, TimestampMixin): 
+class DraftWatch(Base, PKMixin, TimestampMixin, GenderMixin): 
     message: Mapped[str | None]
     folder: Mapped[str_unique_nullable]
     code: Mapped[int | None]
-    integrated_bracelet: Mapped[bool_default_unique]
+    integrated_bracelet: Mapped[bool_default_false]
     start_release: Mapped[int | None]
     end_release: Mapped[int | None]
-    gender_id: Mapped[int | None] = Base.foreign_key(Gender)
     case_material_id: Mapped[int | None] = Base.foreign_key(CaseMaterial)
     mechanism_id: Mapped[int | None]  =Base.foreign_key(Mechanism)
     factory_id: Mapped[int | None] = Base.foreign_key(Factory)
