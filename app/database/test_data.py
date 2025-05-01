@@ -4,7 +4,6 @@ user_test = [
         "name":"test1",
         "email":"test1@test1.ru",
         "provider_id":"test1",
-        "provider":"y",
         "rating": 10,
         "avito_url":"test1",
         "meshok_url":"test1"
@@ -13,7 +12,6 @@ user_test = [
         "name":"test2",
         "email":"test2@test2.ru",
         "provider_id":"test2",
-        "provider":"g",
         "rating": 15
     }
 ]
@@ -99,8 +97,6 @@ watch_test = [
     },
     {
         "folder": "test3",
-        "start_release": 1800,
-        "end_release": 1950,
         "case_material_id": 2,
         "mechanism_id": 1,
         "factory_id": 2,

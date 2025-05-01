@@ -1,16 +1,21 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 
-from seed.schema import UpdateSeedData, GetSeedData
-from seed.crud import get_seed_data
+from seed.schema import *
+from seed.crud import *
 
-from init.crud import create_data
+from init.crud import *
+from init.error import *
+
 
 router = APIRouter()
 
 @router.get("/seed")
-async def get_user_id() -> GetSeedData:
+async def get_seed() -> GetSeedData:
     return await get_seed_data()
 
 @router.put("/seed")
-async def get_user_id(auth_admin: UpdateSeedData):
-    return await create_data()
+async def put_seed(field: QueryAdmin = Depends()):
+    if await update_seed_data(field = field):
+        return {"message": "Данные обновлены"}
+
+    raise NotFoundError("Отказано в доступе")

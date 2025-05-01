@@ -15,9 +15,7 @@ from mechanism.schema import *
 @connection
 async def get_all_mechanism(
     session: AsyncSession,
-    mechanism_type: str = Query(None),
-    search_code: Optional[str] = Query(None),
-    sort_by: Optional[str] = Query("id")  
+    field: GetMechanismField
     ) -> list[GetMechanism]:
     
     query = select(Mechanism).options(
@@ -27,13 +25,13 @@ async def get_all_mechanism(
             
         ).order_by(Mechanism.id)
     
-    if search_code:
-        query = query.where(Mechanism.code == search_code)
+    if field.search_code:
+        query = query.where(Mechanism.code == field.search_code)
     else:
-        if mechanism_type:
-            query = query.where(Mechanism.mechanism_type.has(name = mechanism_type))
+        if field.mechanism_type:
+            query = query.where(Mechanism.mechanism_type.has(name = field.mechanism_type))
             
-    sort_column = getattr(Mechanism, sort_by, Mechanism.id)  
+    sort_column = getattr(Mechanism, field.sort_by, Mechanism.id)  
     query = query.order_by(sort_column)
 
     result = await session.execute(query)
@@ -45,6 +43,7 @@ async def get_all_mechanism(
             release=mechanism.release,
             mechanism_type=mechanism.mechanism_type.name,
             code=mechanism.code,
+            stones=mechanism.stones,
             factory=mechanism.factory.name,
             function=[mf.function.name for mf in mechanism.function_all] 
         ) 
@@ -81,8 +80,8 @@ async def get_mechanism_by_id(session: AsyncSession, id: int) -> GetMechanismId 
             code=mechanism.code,
             factory=mechanism.factory.name,
             function_all=[mf.function.name for mf in mechanism.function_all],
-            created_at = mechanism.created_at, 
-            updated_at = mechanism.updated_at,  
+            created = mechanism.created, 
+            updated = mechanism.updated,  
         ) 
 
     

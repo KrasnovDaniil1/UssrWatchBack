@@ -5,20 +5,10 @@ from sqlalchemy.orm import selectinload
 from database import connection
 from database.model import * 
 
-from watch.schema import GetWatch, GetWatchId
-
-from typing import Optional
+from watch.schema import *
 
 @connection
-async def get_watch_all(
-    session: AsyncSession,          
-    brand: Optional[str] = None,
-    gender: Optional[str] = None,
-    case_material: Optional[str] = None,
-    search_alias: Optional[str] = None,
-    search_code: Optional[str] = None,
-    sort_by: str = "id"
-    ) -> list[GetWatch]:
+async def get_watch_all(field: GetWatchField, session: AsyncSession) -> list[GetWatch]:
     
     query = select(Watch).options(
         selectinload(Watch.case_material),
@@ -27,23 +17,23 @@ async def get_watch_all(
         selectinload(Watch.user),
     )
     
-    if search_code:
-        query = query.where(Watch.code == search_code)
+    if field.search_code:
+        query = query.where(Watch.code == field.search_code)
     else:
-        if brand:
-            query = query.where(Watch.brand.has(name=brand))
-        if gender:
-            query = query.where(Watch.gender.has(name=gender))
-        if case_material:
-            query = query.where(Watch.case_material.has(name=case_material))
-        if search_alias:
-            search_words = search_alias.split()
+        if field.brand:
+            query = query.where(Watch.brand.has(name = field.brand))
+        if field.gender:
+            query = query.where(Watch.gender.has(name = field.gender))
+        if field.case_material:
+            query = query.where(Watch.case_material.has(name = field.case_material))
+        if field.search_alias:
+            search_words = field.search_alias.split()
             conditions = [
                 Watch.alias.ilike(f"%{word}%") for word in search_words
             ]
             query = query.where(or_(*conditions)) 
             
-    sort_column = getattr(Watch, sort_by, Watch.id)  
+    sort_column = getattr(Watch, field.sort_by, Watch.id)  
     query = query.order_by(sort_column)
 
     result = await session.execute(query)
@@ -89,10 +79,10 @@ async def get_watch_by_id(id: int, session: AsyncSession) -> GetWatchId | None:
         integrated_bracelet=watch.integrated_bracelet,
         start_release=watch.start_release,
         end_release=watch.end_release,
-        created_at = watch.created_at, 
-        updated_at = watch.updated_at,  
-        factory=watch.factory.name,
+        created = watch.created, 
+        updated = watch.updated,  
         gender=watch.gender,
+        factory=watch.factory.name,
         case_material=watch.case_material.name,
         user=watch.user.name,
         brand=watch.brand.name,

@@ -31,11 +31,11 @@ class Base(AsyncAttrs, DeclarativeBase):
 def utc_now():
     return datetime.now(datetime.timezone.utc)
 class TimestampMixin:
-    created_at: Mapped[datetime.datetime] = mapped_column(
+    created: Mapped[datetime.datetime] = mapped_column(
         server_default = text("TIMEZONE('utc', now())"), 
         nullable = False
     )
-    updated_at: Mapped[datetime.datetime] = mapped_column(
+    updated: Mapped[datetime.datetime] = mapped_column(
         server_default = text("TIMEZONE('utc', now())"), 
         onupdate = utc_now, 
         nullable = False
@@ -52,7 +52,6 @@ class GenderEnum(str, Enum):
     WOMAN = "w"
     MAN = "m"
     ALL = "a"
-    CHILDREN = "c"
 class GenderMixin:
     gender: Mapped[GenderEnum] = mapped_column(
         SqlEnum(
@@ -66,23 +65,6 @@ class GenderMixin:
         default=GenderEnum.MAN,
         server_default=GenderEnum.MAN.value,
     )
-
-
-class ProviderEnum(str, Enum):
-    YANDEX = "y"
-    GOOGLE = "g"
-class ProviderMixin:
-    provider: Mapped[ProviderEnum] = mapped_column(
-        SqlEnum(
-            ProviderEnum, 
-            name="provider_enum", 
-            validate_strings=True,
-            native_enum=False,
-            values_callable=lambda enum: [e.value for e in enum],
-        ),
-        nullable=False,
-    )
-
 
 str_unique_nullable = Annotated[
     str, 

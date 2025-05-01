@@ -26,7 +26,7 @@ class MechanismType(Base, PKMixin):
     name: Mapped[str_unique_nullable]
 
 # пользователи
-class User(Base, PKMixin, TimestampMixin, ProviderMixin): 
+class User(Base, PKMixin, TimestampMixin): 
     avatar_url: Mapped[str_unique]
     name: Mapped[str_unique_nullable]
     email: Mapped[str_unique_nullable]
@@ -40,7 +40,7 @@ class User(Base, PKMixin, TimestampMixin, ProviderMixin):
 class Mechanism(Base, PKMixin, TimestampMixin):
     folder: Mapped[str_unique_nullable]
     stones: Mapped[int_nullable] 
-    release: Mapped[int_nullable]
+    release: Mapped[int | None]
     description: Mapped[str | None]
     
     code: Mapped[str_nullable]
@@ -72,8 +72,8 @@ class Watch(Base, PKMixin, TimestampMixin, GenderMixin):
     code: Mapped[str | None]
     description: Mapped[str | None]
     integrated_bracelet: Mapped[bool_default_false]
-    start_release: Mapped[int_nullable]
-    end_release: Mapped[int_nullable]
+    start_release: Mapped[int | None]
+    end_release: Mapped[int | None]
     
     case_material_id: Mapped[int] = Base.foreign_key_nullable(CaseMaterial)
     case_material = relationship(CaseMaterial, lazy="joined")
@@ -100,7 +100,7 @@ class Collection(Base, PKMixin):
 
 # аккаунты админов
 class Admin(Base, PKMixin, TimestampMixin):
-    name: Mapped[str_unique_nullable]
+    login: Mapped[str_unique_nullable]
     password: Mapped[str_nullable] 
 
     
