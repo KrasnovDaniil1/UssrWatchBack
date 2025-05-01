@@ -3,7 +3,7 @@ from sqlalchemy import select, or_
 from sqlalchemy.orm import selectinload
 
 from database import connection
-from database.models import * 
+from database.model import * 
 
 from watch.schema import GetWatch, GetWatchId
 

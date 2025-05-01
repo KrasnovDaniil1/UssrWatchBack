@@ -7,7 +7,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import selectinload
 
 from database import connection
-from database.models import * 
+from database.model import * 
 
 from mechanism.schema import *
 

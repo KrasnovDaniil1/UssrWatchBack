@@ -1,22 +1,19 @@
 user_test = [
     {
-        "folder":"f1",
+        "avatar_url":"f1",
         "name":"test1",
-        "email":"test1",
-        "oauth_provider":"test1",
-        "oauth_id":"test1",
+        "email":"test1@test1.ru",
+        "provider_id":"test1",
+        "provider":"y",
         "rating": 10,
         "avito_url":"test1",
         "meshok_url":"test1"
     },
     {
-        "folder":"f2",
         "name":"test2",
-        "email":"test2",
-        "oauth_provider":"test2",
-        "oauth_id":"test2",
-        "avito_url":"test2",
-        "meshok_url":"test2",
+        "email":"test2@test2.ru",
+        "provider_id":"test2",
+        "provider":"g",
         "rating": 15
     }
 ]

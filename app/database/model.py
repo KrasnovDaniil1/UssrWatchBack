@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Mapped, relationship
 
-from database.config import *
+from database.base import *
 
 # добавить alembic
 
@@ -26,17 +26,15 @@ class MechanismType(Base, PKMixin):
     name: Mapped[str_unique_nullable]
 
 # пользователи
-class User(Base, PKMixin, TimestampMixin): 
-    folder: Mapped[str_unique_nullable]
+class User(Base, PKMixin, TimestampMixin, ProviderMixin): 
+    avatar_url: Mapped[str_unique]
     name: Mapped[str_unique_nullable]
     email: Mapped[str_unique_nullable]
-    oauth_provider: Mapped[str_nullable] 
-    oauth_id: Mapped[str_unique_nullable]
+    provider_id: Mapped[str_unique_nullable]
     rating: Mapped[int_default_0]
+    active: Mapped[bool_default_true]
     avito_url: Mapped[str | None]
     meshok_url: Mapped[str | None]
-    description: Mapped[str | None]
-    active: Mapped[bool_default_true]
 
 # механизмы
 class Mechanism(Base, PKMixin, TimestampMixin):

@@ -1,7 +1,7 @@
 from database import engine, async_session
-from database.config import Base
+from database.base import Base
 
-from database.models import *
+from database.model import *
 from database.seed_data import *
 from database.test_data import *
 

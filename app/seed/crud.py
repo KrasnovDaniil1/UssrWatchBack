@@ -2,7 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 
 from database import connection
-from database.models import *
+from database.model import *
 from seed.schema import GetSeedData, SeedItem
 
 @connection
