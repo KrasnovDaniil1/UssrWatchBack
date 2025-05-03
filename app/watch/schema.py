@@ -24,17 +24,22 @@ class GetWatchId(BaseModel):
     id: int 
     folder: str
     code: int | None = None
-    description: str | None = None
     integrated_bracelet: bool 
     start_release: int | None = None
     end_release: int | None = None
     gender: str | None = None
     case_material: str 
-    mechanism: str 
     factory: str 
     brand: str 
-    user: str 
-    created: datetime 
     updated: datetime 
     alias: list[str] | None = None
+    mechanism_id: int | None = None
+    mechanism_code: str | None = None
+    mechanism_code: str | None = None
+    mechanism_type: str | None = None
+    # function_all: list[str] | None = None
+    user_name: str
+    user_rating: int 
+    user_avito: str | None = None
+    user_meshok:str | None = None
     

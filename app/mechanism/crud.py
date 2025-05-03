@@ -72,7 +72,6 @@ async def get_mechanism_by_id(session: AsyncSession, id: int) -> GetMechanismId 
             id=mechanism.id,
             folder=mechanism.folder,
             stones=mechanism.stones,
-            description=mechanism.description,
             
             user=mechanism.user.name,
             release=mechanism.release,

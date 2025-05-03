@@ -20,9 +20,14 @@ async def get_users_id(id: int) -> GetUserId:
         raise NotFoundError("Такого пользователя нет в базе")
     return user 
 
-# @router.post("/user/authorization")
-# def post_users_id():
-#     return  {"message": "Авторизация"}
+@router.post("/user/authorization")
+def post_user_authorization(field: FieldAuthorization):
+    user = user_authorization(field = field)
+    if user is None:
+        raise NotFoundError("Отказано в доступе")
+    return user 
+
+
 
 # @router.put("/user")
 # def put_users_id():

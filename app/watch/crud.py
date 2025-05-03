@@ -60,9 +60,9 @@ async def get_watch_by_id(id: int, session: AsyncSession) -> GetWatchId | None:
         .options(
             selectinload(Watch.case_material),
             selectinload(Watch.brand),
-            selectinload(Watch.mechanism),
             selectinload(Watch.user),
-            
+            selectinload(Watch.mechanism)
+            .selectinload(Mechanism.mechanism_type)
         ).where(Watch.id == id)
     )
         
@@ -75,17 +75,20 @@ async def get_watch_by_id(id: int, session: AsyncSession) -> GetWatchId | None:
         id=watch.id,
         folder=watch.folder,
         code=watch.code,
-        description=watch.description,
         integrated_bracelet=watch.integrated_bracelet,
         start_release=watch.start_release,
         end_release=watch.end_release,
-        created = watch.created, 
-        updated = watch.updated,  
         gender=watch.gender,
-        factory=watch.factory.name,
         case_material=watch.case_material.name,
-        user=watch.user.name,
+        factory=watch.factory.name,
         brand=watch.brand.name,
-        mechanism=watch.mechanism.code,
-        alias = watch.alias.split()
+        updated = watch.updated,  
+        alias = watch.alias.split(),
+        mechanism_id = getattr(watch.mechanism, 'id', None),
+        mechanism_code = getattr(watch.mechanism, 'code', None),
+        mechanism_type= getattr(getattr(watch.mechanism, 'mechanism_type', None), 'name', None),
+        user_name=watch.user.name,
+        user_rating=watch.user.rating,
+        user_avito=watch.user.avito,
+        user_meshok=watch.user.meshok,
     )

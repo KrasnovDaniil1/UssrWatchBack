@@ -34,7 +34,6 @@ async def add_test(): # ! убрать
         await seed_test(session, Mechanism, mechanism_test)
         await seed_test(session, MechanismFunction, mechanism_function_test)
         await seed_test(session, Watch, watch_test)
-        await seed_test(session, Collection, collection_test)
         await seed_test(session, DraftWatch, draft_watch_test)
         await seed_test(session, DraftAlias, draft_alias_test)
         await seed_test(session, DraftMechanism, draft_mechanism_test)

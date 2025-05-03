@@ -27,21 +27,19 @@ class MechanismType(Base, PKMixin):
 
 # пользователи
 class User(Base, PKMixin, TimestampMixin): 
-    avatar_url: Mapped[str_unique]
     name: Mapped[str_unique_nullable]
     email: Mapped[str_unique_nullable]
     provider_id: Mapped[str_unique_nullable]
     rating: Mapped[int_default_0]
     active: Mapped[bool_default_true]
-    avito_url: Mapped[str | None]
-    meshok_url: Mapped[str | None]
+    avito: Mapped[str | None]
+    meshok: Mapped[str | None]
 
 # механизмы
 class Mechanism(Base, PKMixin, TimestampMixin):
     folder: Mapped[str_unique_nullable]
     stones: Mapped[int_nullable] 
     release: Mapped[int | None]
-    description: Mapped[str | None]
     
     code: Mapped[str_nullable]
     
@@ -70,7 +68,6 @@ class MechanismFunction(Base, PKMixin):
 class Watch(Base, PKMixin, TimestampMixin, GenderMixin):
     folder: Mapped[str_unique_nullable]
     code: Mapped[str | None]
-    description: Mapped[str | None]
     integrated_bracelet: Mapped[bool_default_false]
     start_release: Mapped[int | None]
     end_release: Mapped[int | None]
@@ -78,7 +75,7 @@ class Watch(Base, PKMixin, TimestampMixin, GenderMixin):
     case_material_id: Mapped[int] = Base.foreign_key_nullable(CaseMaterial)
     case_material = relationship(CaseMaterial, lazy="joined")
     
-    mechanism_id: Mapped[int]  = Base.foreign_key_nullable(Mechanism)
+    mechanism_id: Mapped[int | None]  = Base.foreign_key(Mechanism)
     mechanism = relationship(Mechanism, lazy="joined")
     
     factory_id: Mapped[int] = Base.foreign_key_nullable(Factory)
@@ -92,18 +89,11 @@ class Watch(Base, PKMixin, TimestampMixin, GenderMixin):
     
     alias: Mapped[str | None]
     
-
-# коллекция пользователя
-class Collection(Base, PKMixin): 
-    user_id: Mapped[int] = Base.foreign_key_nullable(User)
-    watch_id: Mapped[int] = Base.foreign_key_nullable(Watch)
-
 # аккаунты админов
 class Admin(Base, PKMixin, TimestampMixin):
     login: Mapped[str_unique_nullable]
     password: Mapped[str_nullable] 
 
-    
 # черновик - часы 
 class DraftWatch(Base, PKMixin, TimestampMixin, GenderMixin): 
     message: Mapped[str | None]

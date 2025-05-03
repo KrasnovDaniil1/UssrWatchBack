@@ -20,7 +20,6 @@ class GetMechanismId(BaseModel):
     folder: str 
     stones: int
     release: int | None = None
-    description: str | None = None
     code: str 
     mechanism_type: str
     factory: str

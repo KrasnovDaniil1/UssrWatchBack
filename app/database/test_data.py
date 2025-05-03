@@ -1,12 +1,11 @@
 user_test = [
     {
-        "avatar_url":"f1",
         "name":"test1",
         "email":"test1@test1.ru",
         "provider_id":"test1",
         "rating": 10,
-        "avito_url":"test1",
-        "meshok_url":"test1"
+        "avito":"test1",
+        "meshok":"test1"
     },
     {
         "name":"test2",
@@ -69,7 +68,6 @@ watch_test = [
     {
         "folder": "папка на картинку",
         "code": '1234',
-        "description": "Крутые часы, в единственном экземпляре",
         "integrated_bracelet": True,
         "start_release": 1970,
         "end_release": 1975,
@@ -83,7 +81,6 @@ watch_test = [
     {
         "folder": "test2",
         "code": '123456',
-        "description": "tetsttes2",
         "integrated_bracelet": True,
         "start_release": 1950,
         "end_release": 1990,
@@ -98,7 +95,6 @@ watch_test = [
     {
         "folder": "test3",
         "case_material_id": 2,
-        "mechanism_id": 1,
         "factory_id": 2,
         "brand_id": 2,
         "user_id": 1,
@@ -120,22 +116,6 @@ alias_test = [
         
     }
 ]
-
-collection_test = [
-    {
-        "user_id": 1,
-        "watch_id": 1
-    },
-    {
-        "user_id": 1,
-        "watch_id": 2
-    },
-    {
-        "user_id": 2,
-        "watch_id": 1
-    }
-]
-
 
 blocked_test = [
     {
