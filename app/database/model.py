@@ -16,118 +16,52 @@ class Brand(Base, PKMixin):
 class CaseMaterial(Base, PKMixin): 
     name: Mapped[str_unique_nullable]
 
-# функции механизмов
+# функции часов
 class Function(Base, PKMixin): 
     name: Mapped[str_unique_nullable]
-    mechanism_functions: Mapped[list["MechanismFunction"]] = relationship("MechanismFunction", back_populates="function")
 
 # тип механизма
 class MechanismType(Base, PKMixin):
     name: Mapped[str_unique_nullable]
 
-# пользователи
-class User(Base, PKMixin, TimestampMixin): 
-    name: Mapped[str_unique_nullable]
-    email: Mapped[str_unique_nullable]
-    provider_id: Mapped[str_unique_nullable]
-    rating: Mapped[int_default_0]
-    active: Mapped[bool_default_true]
-    avito: Mapped[str | None]
-    meshok: Mapped[str | None]
-
-# механизмы
-class Mechanism(Base, PKMixin, TimestampMixin):
-    folder: Mapped[str_unique_nullable]
-    stones: Mapped[int_nullable] 
-    release: Mapped[int | None]
-    
-    code: Mapped[str_nullable]
-    
-    mechanism_type_id: Mapped[int] = Base.foreign_key_nullable(MechanismType)
-    mechanism_type = relationship(MechanismType, lazy="joined")
-    
-    factory_id: Mapped[int] = Base.foreign_key_nullable(Factory)
-    factory = relationship(Factory, lazy="joined")
-    
-    user_id: Mapped[int] = Base.foreign_key_nullable(User)
-    user = relationship(User, lazy="joined")
-    
-    function_all: Mapped[list["MechanismFunction"]] = relationship("MechanismFunction", back_populates="mechanism", lazy="joined")
-    
-
-# несколько функций механизмов
-class MechanismFunction(Base, PKMixin): 
-    mechanism_id: Mapped[int] = Base.foreign_key_nullable(Mechanism)
-    mechanism: Mapped[Mechanism] = relationship(Mechanism, back_populates="function_all", lazy="joined")
-    
-    function_id: Mapped[int] = Base.foreign_key_nullable(Function)
-    function: Mapped[Function] = relationship(Function, back_populates="mechanism_functions", lazy="joined")
-    
-
 # часы
 class Watch(Base, PKMixin, TimestampMixin, GenderMixin):
     folder: Mapped[str_unique_nullable]
     code: Mapped[str | None]
-    integrated_bracelet: Mapped[bool_default_false]
     start_release: Mapped[int | None]
     end_release: Mapped[int | None]
+    mechanism: Mapped[str | None]
+    integrated_bracelet: Mapped[bool_default_false]
+    description: Mapped[str | None]
+    width_bracelet: Mapped[int | None]
     
-    case_material_id: Mapped[int] = Base.foreign_key_nullable(CaseMaterial)
+    case_material_id: Mapped[int | None] = Base.foreign_key(CaseMaterial)
     case_material = relationship(CaseMaterial, lazy="joined")
     
-    mechanism_id: Mapped[int | None]  = Base.foreign_key(Mechanism)
-    mechanism = relationship(Mechanism, lazy="joined")
-    
-    factory_id: Mapped[int] = Base.foreign_key_nullable(Factory)
+    factory_id: Mapped[int | None] = Base.foreign_key(Factory)
     factory = relationship(Factory, lazy="joined")
     
-    brand_id: Mapped[int] = Base.foreign_key_nullable(Brand)
-    brand = relationship(Brand, lazy="joined")
-    
-    user_id: Mapped[int] = Base.foreign_key_nullable(User)
-    user = relationship(User, lazy="joined")
-    
-    alias: Mapped[str | None]
-    
-# аккаунты админов
-class Admin(Base, PKMixin, TimestampMixin):
-    login: Mapped[str_unique_nullable]
-    password: Mapped[str_nullable] 
-
-# черновик - часы 
-class DraftWatch(Base, PKMixin, TimestampMixin, GenderMixin): 
-    message: Mapped[str | None]
-    folder: Mapped[str_unique_nullable]
-    code: Mapped[int | None]
-    integrated_bracelet: Mapped[bool_default_false]
-    start_release: Mapped[int | None]
-    end_release: Mapped[int | None]
-    case_material_id: Mapped[int | None] = Base.foreign_key(CaseMaterial)
-    mechanism_id: Mapped[int | None]  =Base.foreign_key(Mechanism)
-    factory_id: Mapped[int | None] = Base.foreign_key(Factory)
     brand_id: Mapped[int | None] = Base.foreign_key(Brand)
-    user_id: Mapped[int] = Base.foreign_key(User)
-    admin_id: Mapped[int | None] = Base.foreign_key(Admin)
-    
-# черновик - ключевые слова 
-class DraftAlias(Base, PKMixin): 
-    key: Mapped[str_nullable]
-    watch_id: Mapped[int] = Base.foreign_key_nullable(Watch)
-    
-# черновик - механизмы
-class DraftMechanism(Base, PKMixin, TimestampMixin):
-    message: Mapped[str | None]
-    folder: Mapped[str_unique_nullable]
-    stones: Mapped[int | None] 
-    start_release: Mapped[int | None]
-    mechanism_type_id: Mapped[int | None] = Base.foreign_key(MechanismType)
-    factory_id: Mapped[int | None] = Base.foreign_key(Factory)
-    user_id: Mapped[int] = Base.foreign_key_nullable(User)
-    admin_id: Mapped[int | None] = Base.foreign_key(Admin)
+    brand = relationship(Brand, lazy="joined")
 
-# черновик - несколько функций механизмов
-class DraftMechanismFunction(Base, PKMixin):
-    mechanism_id: Mapped[int] = Base.foreign_key_nullable(Mechanism)
+    functions = relationship("WatchFunction", back_populates="watch_function", lazy="joined")
+    
+    aliases = relationship("WatchAlias", back_populates="watch_alias", lazy="joined")
+
+class WatchAlias(Base, PKMixin): 
+    watch_id: Mapped[int] = Base.foreign_key_nullable(Watch)
+    name: Mapped[str_nullable]
+    
+    watch_alias = relationship(Watch, back_populates="aliases")
+
+class WatchFunction(Base, PKMixin): 
+    watch_id: Mapped[int] = Base.foreign_key_nullable(Watch)
     function_id: Mapped[int] = Base.foreign_key_nullable(Function)
     
+    watch_function = relationship("Watch", back_populates="functions")
+    function = relationship("Function", lazy="joined")
     
+
+
+    
+

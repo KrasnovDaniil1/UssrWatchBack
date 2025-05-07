@@ -13,8 +13,7 @@ async def get_watch_all(field: GetWatchField, session: AsyncSession) -> list[Get
     query = select(Watch).options(
         selectinload(Watch.case_material),
         selectinload(Watch.brand),
-        selectinload(Watch.mechanism),
-        selectinload(Watch.user),
+        selectinload(Watch.aliases),
     )
     
     if field.search_code:
@@ -23,31 +22,30 @@ async def get_watch_all(field: GetWatchField, session: AsyncSession) -> list[Get
         if field.brand:
             query = query.where(Watch.brand.has(name = field.brand))
         if field.gender:
-            query = query.where(Watch.gender.has(name = field.gender))
+            query = query.where(Watch.gender == field.gender)
         if field.case_material:
             query = query.where(Watch.case_material.has(name = field.case_material))
-        if field.search_alias:
-            search_words = field.search_alias.split()
+        if field.search_aliases:
+            search_words = field.search_aliases.split()
+            query = query.join(Watch.aliases)
             conditions = [
-                Watch.alias.ilike(f"%{word}%") for word in search_words
+                WatchAlias.alias.ilike(f"%{word}%") for word in search_words
             ]
             query = query.where(or_(*conditions)) 
-            
-    sort_column = getattr(Watch, field.sort_by, Watch.id)  
-    query = query.order_by(sort_column)
 
     result = await session.execute(query)
 
     return [
         GetWatch(
-            id=watch.id,
-            folder=watch.folder,
-            start_release=watch.start_release,
-            end_release=watch.end_release,
-            case_material=watch.case_material.name,
-            gender=watch.gender,
-            brand=watch.brand.name,
-            alias = watch.alias.split()
+            id = watch.id,
+            folder = watch.folder,
+            start_release = watch.start_release,
+            end_release = watch.end_release,
+            gender = watch.gender,
+            mechanism = watch.mechanism,
+            case_material = getattr(watch.case_material, 'name', None),
+            brand = getattr(watch.brand, 'name', None),
+            aliases = [a.name for a in watch.aliases]
         )
         for watch in result.unique().scalars().all()
     ]
@@ -60,9 +58,10 @@ async def get_watch_by_id(id: int, session: AsyncSession) -> GetWatchId | None:
         .options(
             selectinload(Watch.case_material),
             selectinload(Watch.brand),
-            selectinload(Watch.user),
-            selectinload(Watch.mechanism)
-            .selectinload(Mechanism.mechanism_type)
+            selectinload(Watch.functions),
+            selectinload(Watch.aliases),
+            selectinload(Watch.factory)
+            
         ).where(Watch.id == id)
     )
         
@@ -74,21 +73,20 @@ async def get_watch_by_id(id: int, session: AsyncSession) -> GetWatchId | None:
     return GetWatchId(
         id=watch.id,
         folder=watch.folder,
-        code=watch.code,
-        integrated_bracelet=watch.integrated_bracelet,
         start_release=watch.start_release,
         end_release=watch.end_release,
         gender=watch.gender,
-        case_material=watch.case_material.name,
-        factory=watch.factory.name,
-        brand=watch.brand.name,
+        case_material = getattr(watch.case_material, 'name', None),
+        brand = getattr(watch.brand, 'name', None),
+        mechanism = watch.mechanism,
+        code = watch.code,
+        integrated_bracelet = watch.integrated_bracelet,
+        width_bracelet = watch.width_bracelet,
+        
+        factory = getattr(watch.factory, 'name', None),
+        
+        functions = [wf.function.name for wf in watch.functions],
+        aliases = [a.name for a in watch.aliases],
+
         updated = watch.updated,  
-        alias = watch.alias.split(),
-        mechanism_id = getattr(watch.mechanism, 'id', None),
-        mechanism_code = getattr(watch.mechanism, 'code', None),
-        mechanism_type= getattr(getattr(watch.mechanism, 'mechanism_type', None), 'name', None),
-        user_name=watch.user.name,
-        user_rating=watch.user.rating,
-        user_avito=watch.user.avito,
-        user_meshok=watch.user.meshok,
     )

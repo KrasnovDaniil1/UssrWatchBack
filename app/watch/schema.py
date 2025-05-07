@@ -1,45 +1,44 @@
-from pydantic import BaseModel, Field, ConfigDict
-from typing import Optional
+from pydantic import BaseModel
 from datetime import datetime
+from typing import Literal
+
+from database import seed_data as seed
 
 class GetWatchField(BaseModel):
-    brand: str | None = None
-    gender: str | None = None
-    case_material: str | None = None
-    search_alias: str | None = None
+    search_aliases: str | None = None
     search_code: str | None = None
-    sort_by: str = "id"
+    brand: Literal[*seed.brand] | None = None
+    mechanism_type: Literal[*seed.mechanism_type] | None = None
+    case_material: Literal[*seed.case_material] | None = None
+    gender: Literal[*seed.gender] | None = None 
 
 class GetWatch(BaseModel):
     id: int 
     folder: str
     start_release: int | None = None
     end_release: int | None = None
-    gender: str 
-    case_material: str 
-    brand: str 
-    alias: list[str] | None = None
+    gender:  str | None = None 
+    case_material: str | None = None  
+    brand: str | None = None
+    mechanism: str | None = None
+    aliases: list[str] | None = None
     
 class GetWatchId(BaseModel):
     id: int 
     folder: str
-    code: int | None = None
-    integrated_bracelet: bool 
+    description: str | None = None 
     start_release: int | None = None
     end_release: int | None = None
-    gender: str | None = None
-    case_material: str 
-    factory: str 
-    brand: str 
+    gender:  str | None = None 
+    case_material: str | None = None  
+    brand: str | None = None
+    mechanism: str | None = None
+    code: int | None = None
+    width_bracelet: int | None = None
+    integrated_bracelet: bool 
+    factory: str | None = None 
+    aliases: list[str] | None = None
+    functions: list[str] | None = None
     updated: datetime 
-    alias: list[str] | None = None
-    mechanism_id: int | None = None
-    mechanism_code: str | None = None
-    mechanism_code: str | None = None
-    mechanism_type: str | None = None
-    # function_all: list[str] | None = None
-    user_name: str
-    user_rating: int 
-    user_avito: str | None = None
-    user_meshok:str | None = None
+
     

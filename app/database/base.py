@@ -48,22 +48,11 @@ class PKMixin:
         return mapped_column(primary_key=True)
 
 
-class GenderEnum(str, Enum):
-    WOMAN = "w"
-    MAN = "m"
-    ALL = "a"
 class GenderMixin:
-    gender: Mapped[GenderEnum] = mapped_column(
-        SqlEnum(
-            GenderEnum, 
-            name="gender_enum", 
-            validate_strings=True,
-            native_enum=False,
-            values_callable=lambda enum: [e.value for e in enum],
-        ),
+    gender: Mapped[str] = mapped_column(
         nullable=False,
-        default=GenderEnum.MAN,
-        server_default=GenderEnum.MAN.value,
+        default="универсальные",
+        server_default="универсальные",
     )
 
 str_unique_nullable = Annotated[
@@ -73,7 +62,6 @@ str_unique_nullable = Annotated[
         nullable=False
     )
 ] 
-
 
 str_nullable = Annotated[
     str, 
