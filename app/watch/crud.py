@@ -22,13 +22,13 @@ async def get_watch_all(field: GetWatchField, session: AsyncSession) -> list[Get
         query = query.where(Watch.code == field.search_code)
     else:
         if field.gender:
-            query = query.where(Watch.gender.has(name = field.gender))
+            query = query.where(Watch.gender.has(Gender.name.in_(field.gender)))
         if field.brand:
-            query = query.where(Watch.brand.has(name = field.brand))
+            query = query.where(Watch.brand.has(Brand.name.in_(field.brand)))
         if field.case_material:
-            query = query.where(Watch.case_material.has(name = field.case_material))
+            query = query.where(Watch.case_material.has(CaseMaterial.name.in_(field.case_material)))
         if field.mechanism_type:
-            query = query.where(Watch.mechanism_type.has(name = field.mechanism_type))
+            query = query.where(Watch.mechanism_type.has(MechanismType.name.in_(field.mechanism_type)))
         if field.search_aliases:
             search_words = field.search_aliases.split()
             query = query.join(Watch.aliases)

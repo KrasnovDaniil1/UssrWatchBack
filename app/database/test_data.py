@@ -27,7 +27,6 @@ watch_test = [
     },
     {
         "folder": "test3",
-        
     },
 
 ]

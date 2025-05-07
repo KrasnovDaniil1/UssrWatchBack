@@ -9,7 +9,7 @@ from init.error import NotFoundError
 router = APIRouter()
 
 
-@router.get("/watch")
+@router.post("/watch")
 async def get_watch(field: GetWatchField = Depends()) -> list[GetWatch]:
     watch = await get_watch_all(field = field)
     return watch 
