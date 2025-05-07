@@ -16,4 +16,6 @@ class GetSeedData(BaseModel):
     function: TitleItems
     mechanism_type: TitleItems
     gender: TitleItems
+    sort: TitleItems
+    
     

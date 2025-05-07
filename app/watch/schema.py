@@ -4,9 +4,12 @@ from typing import Literal, List
 
 from database import seed_data as seed
 
+sort_name = [item["name"] for item in seed.sort]
+
 class GetWatchField(BaseModel):
     search_aliases: str | None = None
     search_code: str | None = None
+    sort: Literal[*sort_name] = sort_name[0]
     brand: List[Literal[*seed.brand]] | None = None
     mechanism_type: List[Literal[*seed.mechanism_type]] | None = None
     case_material: List[Literal[*seed.case_material]] | None = None

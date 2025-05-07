@@ -3,6 +3,7 @@ from sqlalchemy import select, func
 
 from database import connection
 from database.model import *
+from database.seed_data import sort
 
 from seed.schema import *
 
@@ -42,7 +43,10 @@ async def get_seed_data(session: AsyncSession) -> GetSeedData:
             "title": "Пол",
             "items": [{"id": item.id, "name": item.name} for item in gender]
         },
-        
+        sort = {
+            "title": "Сортировка",
+            "items": sort
+        }
     )
 
 # @connection

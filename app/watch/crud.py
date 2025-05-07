@@ -37,6 +37,15 @@ async def get_watch_all(field: GetWatchField, session: AsyncSession) -> list[Get
             ]
             query = query.where(or_(*conditions)) 
 
+    if field.sort == "дата публикации ↑":
+        query = query.order_by(Watch.updated.desc())
+    elif field.sort == "дата публикации ↓":
+        query = query.order_by(Watch.updated.asc())
+    elif field.sort == "год выпуска ↑":
+        query = query.order_by(Watch.start_release.asc())
+    elif field.sort == "год выпуска ↓":
+        query = query.order_by(Watch.start_release.desc())
+
     result = await session.execute(query)
 
     return [
