@@ -26,6 +26,8 @@ async def add_seed():
         await seed_unique(session, CaseMaterial, "name", case_material)
         await seed_unique(session, Function, "name", function)
         await seed_unique(session, MechanismType, "name", mechanism_type)
+        await seed_unique(session, Gender, "name", gender)
+
 
 async def add_test(): # ! убрать
     async with async_session() as session:

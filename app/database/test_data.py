@@ -3,10 +3,12 @@ watch_test = [
     {
         "folder": "папка на картинку",
         "code": '1234',
+        "gender_id": 1,
         "width_bracelet": 19,
         "start_release": 1970,
         "end_release": 1975,
         "mechanism": "зим 2209",
+        "mechanism_type_id": 1,
         "integrated_bracelet": True,
         "case_material_id": 1,
         "factory_id": 1,
@@ -19,11 +21,13 @@ watch_test = [
         "end_release": 1990,
         "case_material_id": 3,
         "mechanism": "полет 2209",
+        "mechanism_type_id": 1,
         "factory_id": 3,
         "brand_id": 3,
     },
     {
         "folder": "test3",
+        
     },
 
 ]

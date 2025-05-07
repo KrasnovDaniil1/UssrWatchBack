@@ -1,14 +1,19 @@
-from pydantic import BaseModel, EmailStr, SecretStr
+from pydantic import BaseModel
 
 class IdName(BaseModel):
-    id: int | str  
+    id: int
     name: str
+
+class TitleItems(BaseModel):
+    title: str  
+    items: list[IdName]
+    
 class GetSeedData(BaseModel):
     all_count_watch: int
-    factory: list[IdName]
-    brand: list[IdName]
-    case_material: list[IdName]
-    function: list[IdName]
-    mechanism_type: list[IdName]
-    gender: list[IdName]
+    factory: TitleItems
+    brand: TitleItems
+    case_material: TitleItems
+    function: TitleItems
+    mechanism_type: TitleItems
+    gender: TitleItems
     

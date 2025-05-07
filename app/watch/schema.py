@@ -33,6 +33,7 @@ class GetWatchId(BaseModel):
     case_material: str | None = None  
     brand: str | None = None
     mechanism: str | None = None
+    mechanism_type: str | None = None
     code: int | None = None
     width_bracelet: int | None = None
     integrated_bracelet: bool 

@@ -23,17 +23,27 @@ class Function(Base, PKMixin):
 # тип механизма
 class MechanismType(Base, PKMixin):
     name: Mapped[str_unique_nullable]
+    
+class Gender(Base, PKMixin):
+    name: Mapped[str_unique_nullable]
 
 # часы
-class Watch(Base, PKMixin, TimestampMixin, GenderMixin):
+class Watch(Base, PKMixin, TimestampMixin):
     folder: Mapped[str_unique_nullable]
+    integrated_bracelet: Mapped[bool_default_false]
+    
     code: Mapped[str | None]
     start_release: Mapped[int | None]
     end_release: Mapped[int | None]
     mechanism: Mapped[str | None]
-    integrated_bracelet: Mapped[bool_default_false]
     description: Mapped[str | None]
     width_bracelet: Mapped[int | None]
+    
+    gender_id: Mapped[str | None] = Base.foreign_key(Gender)
+    gender = relationship(Gender, lazy="joined")
+    
+    mechanism_type_id: Mapped[int | None] = Base.foreign_key(MechanismType)
+    mechanism_type = relationship(MechanismType, lazy="joined")
     
     case_material_id: Mapped[int | None] = Base.foreign_key(CaseMaterial)
     case_material = relationship(CaseMaterial, lazy="joined")

@@ -47,14 +47,6 @@ class PKMixin:
     def id(cls) -> Mapped[int]:
         return mapped_column(primary_key=True)
 
-
-class GenderMixin:
-    gender: Mapped[str] = mapped_column(
-        nullable=False,
-        default="универсальные",
-        server_default="универсальные",
-    )
-
 str_unique_nullable = Annotated[
     str, 
     mapped_column(
